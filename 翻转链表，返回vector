@@ -1,0 +1,23 @@
+//利用栈
+//注意不要记错STL容器算法的名字
+
+class Solution {
+public:
+    vector<int> printListFromTailToHead(ListNode* head) {
+        vector<int> tmp;
+        if(head==nullptr)
+            return tmp;
+        stack<int> s;
+        ListNode* mylist=head;
+        while(mylist!=nullptr){
+            s.push(mylist->val);
+            mylist=mylist->next;
+        }
+        
+        while(!s.empty()){
+            tmp.push_back(s.top());
+            s.pop();
+        }
+        return tmp;
+    }
+};
