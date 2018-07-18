@@ -1,0 +1,36 @@
+//从前往后遍历，从后往前遍历，
+class Solution {
+public:
+	void replaceSpace(char *str,int length) {
+         if(str==nullptr || length<=0){   //边界条件
+             return;
+         }
+         int i;
+         int oldlength=0;         //注意定义的变量需要初始化，不然会提示数组越界。
+         int spacecount=0;
+         while(str[i]!='\0'){
+             oldlength++;
+             if(str[i]==' '){     //''中间需要打空格
+                 spacecount++;
+             }
+                 
+             i++;
+         }
+         int newlength=oldlength+2*spacecount;
+         if(newlength>length)      //判断
+             return;
+         while(oldlength>=0 && newlength>oldlength){     //注意条件
+             if(str[oldlength]==' '){
+                 str[newlength--]='0';
+                 str[newlength--]='2';
+                 str[newlength--]='%';
+             }else{
+                 str[newlength--]=str[oldlength];
+             }
+             oldlength--;
+         }
+        
+         
+         
+	}
+};
