@@ -1,0 +1,44 @@
+//O(n)利用哈希表，key为数值，value为该数值在数组中的下标
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> vec;
+        unordered_map<int,int> hash;
+        for(int i=0;i<nums.size();i++)
+        {
+            int numbers=target-nums[i];
+            //如果在哈希表中找到
+            if(hash.find(numbers)!=hash.end())
+            {
+                vec.push_back(hash[numbers]);
+                vec.push_back(i);
+                return vec;
+            }
+            //如果找不到就添加当前元素到哈希表中
+            hash[nums[i]]=i;
+        }
+        return vec;
+}
+};
+
+
+//O(n^2) 暴力遍历数组
+//注意返回的位置，以及返回的是下标
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> vec;
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=i+1;j<nums.size();j++)
+            {
+                if(nums[i]+nums[j]==target)
+                {
+                    vec.push_back(i);
+                    vec.push_back(j);
+                    return vec;
+                }
+            }   
+        }
+        return vec;
+}
+};
