@@ -1,11 +1,11 @@
 //我的解法：先求vector中最短的string的长度，然后从第一个字符开始比较vector的各个元素
+//另外经验证，打印没初始化的string和赋值""后再打印是一样的，说明""就是空，而且size为0
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
         string str;
         if(strs.empty())
             return str;
-        str="";
         vector<int> len;
         for(int i=0;i<strs.size();i++)           //下面这5,6行求最小string长度，感觉有更简短的写法。。。实在菜的抠脚
         {
