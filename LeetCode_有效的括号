@@ -38,9 +38,6 @@ public:
                 if(tmp=='('&&s[i]==')' || tmp=='{'&&s[i]=='}' || tmp=='['&&s[i]==']')
                 {
                     st.pop();
-                    if(st.empty() && i==s.length()-1)
-                        return true;
-                    continue;
                 }else 
                 {
                     return false;
