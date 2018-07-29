@@ -1,0 +1,34 @@
+//取一半的数段比较
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x<0|| (x!=0 &&x%10==0)) return false;  //特殊情况要考虑到位
+        int sum=0;
+        while(x>sum)
+        {
+            sum = sum*10+x%10;
+            x = x/10;
+        }
+        return (x==sum)||(x==sum/10); //奇数和偶数的情况
+    }
+};
+
+
+
+//和翻转数字差不多，翻转后和原数比较
+//虽然AC了，但边界和越界的处理没有考虑到位
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x<0)
+            return false;
+        int tmp=x;
+        int ret=0;
+        while(tmp!=0)
+        {
+            int ret=ret*10+tmp%10;
+            tmp/=10;
+        }
+        return (x==ret);
+    }
+};
