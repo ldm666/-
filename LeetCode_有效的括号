@@ -1,0 +1,60 @@
+//别人家的代码，感觉和我的思路差不多，利用switch的特性简直不要太6
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> paren;
+        for (char& c : s) {
+            switch (c) {
+                case '(': 
+                case '{': 
+                case '[': paren.push(c); break;
+                case ')': if (paren.empty() || paren.top()!='(') return false; else paren.pop(); break;
+                case '}': if (paren.empty() || paren.top()!='{') return false; else paren.pop(); break;
+                case ']': if (paren.empty() || paren.top()!='[') return false; else paren.pop(); break;
+                default: ; // pass
+            }
+        }
+        return paren.empty() ;
+    }
+};
+
+
+//我的代码
+//利用栈。遇到({[就入栈，不然就每次把栈顶元素和当前访问的元素比较(此时如果栈空就false)，如果匹配就出栈，进入下一轮循环。
+//true的情况是：每次匹配成功后发现已经遍历完了，或者for循环结束后栈空(考虑了连续插入同一个方向的括号的情况)
+//逻辑一不小心就错了，调试了很久。。。
+//注意std::stack的方法是pop,top,push 很容易记错
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.empty())
+            return true;
+        stack<char> st;
+        char tmp;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+            {
+                st.push(s[i]);
+            }else if(!st.empty())
+            {
+                tmp=st.top();
+                if(tmp=='('&&s[i]==')' || tmp=='{'&&s[i]=='}' || tmp=='['&&s[i]==']')
+                {
+                    st.pop();
+                    if(st.empty() && i==s.length()-1)
+                        return true;
+                    continue;
+                }else 
+                {
+                    return false;
+                }
+            }else
+            {
+                return false;
+            }
+        }
+        return st.empty();
+            
+    }
+};
