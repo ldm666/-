@@ -1,3 +1,4 @@
+删除重复元素
 //我的作弊式解法：利用std::unique  
 class Solution {
 public:
@@ -12,6 +13,26 @@ public:
 int count = 0;
 for(int i = 1; i < n; i++){
     if(A[i] == A[i-1]) count++;
+    else A[i-count] = A[i];
+}
+return nums.size()-count;
+
+
+删除特定元素
+//我的解法：同上，用stl作弊
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        auto result=remove(nums.begin(),nums.end(),val);
+        nums.erase(result,nums.end());
+        return nums.size();
+    }
+};
+
+//和上题差不多
+int count = 0;
+for(int i = 1; i < n; i++){
+    if(A[i] == val]) count++;
     else A[i-count] = A[i];
 }
 return nums.size()-count;
