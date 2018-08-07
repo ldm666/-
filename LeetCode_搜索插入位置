@@ -1,0 +1,42 @@
+//我的O(n)解法：最直观的就是先遍历一次，如果发现有返回下标。然后再遍历一次寻找适当的位置
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==target)
+            {
+                return i;
+            }
+        }
+        int j=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]<target)
+                j++;
+        }
+        return j;
+    }
+};
+
+//O(logn)解法：二分查找。因为数组是排序的！
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int low=0,high=nums.size()-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(nums[mid]<target)
+            {
+                low=mid+1;
+            }else
+            {
+                high=mid-1;
+            }
+        }
+        return low;
+    }
+};
+
+//stl解法：return lower_bound(nums.begin(), nums.end(), target) - nums.begin();
