@@ -1,0 +1,45 @@
+//别人的解：从后向前，判断加1后是否产生进位
+class Solution {
+public:
+    vector<int> plusOne(vector<int> &digits) {
+        int i,j,carry=1;
+        // traditional long addition..
+        for(i=digits.size()-1;i>=0&&carry;i--){
+            int sum=carry+digits[i];
+            carry=sum/10;
+            digits[i]=sum%10;
+        }
+        if(carry){ // if carry is 1, then digits must be all 99..999
+            digits[0]=1;
+            digits.push_back(0);
+        }
+        return digits;
+    }
+};
+
+//我的解：不通过，估计溢出了，而且采取了很笨的加法
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        long sum=0;
+        for(int i=digits.size()-1,j=0;i>=0;i--,j++)
+        {
+            digits[i]=digits[i]*pow(10,j);
+        }
+        sum=accumulate(digits.begin(),digits.end(),0);
+        sum=sum+1;
+        vector<int> res;
+        stack<int> st;
+        while(sum>0)
+        {
+            st.push(sum%10);
+            sum/=10;
+        }
+        while(!st.empty())
+        {
+            res.push_back(st.top());
+            st.pop();
+        }
+        return res;
+    }
+};
