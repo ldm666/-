@@ -1,0 +1,16 @@
+//别人的解法：字母转为数字进行10进制相加，再转为二进制。注意循环条件和11行相加的顺序
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string res="";
+        int i=a.size()-1,j=b.size()-1,c=0;
+        while(i>=0 || j>=0 || c==1)
+        {
+            c+= i>=0 ? a[i--]-'0':0;  //如果该位为空的取0
+            c+= j>=0 ? b[j--]-'0':0;
+            res=char(c%2+'0')+res;    //注意相加的顺序
+            c/=2;   //计算进位
+        }
+        return res;
+    }
+};
