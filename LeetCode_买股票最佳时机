@@ -1,0 +1,29 @@
+//我的解法(低效) O(n^2)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.empty())     //注意考虑空输入
+            return 0;
+        vector<int> res;
+        for(int i=0;i<prices.size()-1;i++)
+        {
+            for(int j=i+1;j<prices.size();j++)
+            {
+                if(prices[i]<prices[j])
+                    res.push_back(prices[j]-prices[i]);
+            }
+        }
+        return res.empty() ? 0:*max_element(res.begin(),res.end());  //如果直接返回*max_element则会提示绑定错误，这是因为没有考虑res为空的情况
+    }
+};
+
+//O(n)解法，类似于求最长子序列和，每一次循环都找出目前为止最大的利益，遍历到最后的时候自然就是最大的了
+int maxProfit(vector<int> &prices) {
+    int maxPro = 0;
+    int minPrice = INT_MAX;
+    for(int i = 0; i < prices.size(); i++){
+        minPrice = min(minPrice, prices[i]);
+        maxPro = max(maxPro, prices[i] - minPrice);
+    }
+    return maxPro;
+}
