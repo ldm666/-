@@ -10,7 +10,7 @@ public:
     }
 };
 
-//stl黑科技
+//stl黑科技：nth_element(first,nth,last)：将第n_th元素放到它该放的位置上，左边元素都小于它，右边元素都大于它，也就是求第n_th的元素
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
