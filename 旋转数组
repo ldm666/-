@@ -1,0 +1,11 @@
+//翻转三次：整体一次，前n-k一次，n-k+1到末尾一次
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n=nums.size();
+        k%=n;
+        reverse(nums.begin(),nums.begin()+n-k);
+        reverse(nums.begin()+n-k,nums.begin()+n);
+        reverse(nums.begin(),nums.begin()+n);
+    }
+};
