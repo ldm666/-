@@ -1,0 +1,23 @@
+//利用stl::set
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        if(nums.size()==0 || nums.size()==1)    //输入元素个数为0或者1个的时候
+            return false;
+        set<int> s;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(s.count(nums[i])==0)  //说明集合中没有这个元素
+            {
+                s.insert(nums[i]);
+            }else
+            {
+                return true;
+            }   
+        }
+        return false;
+    }
+};
+
+//相同的思路，别人一行代码。。。。。。我擦
+return nums.size() > set<int>(nums.begin(), nums.end()).size();
