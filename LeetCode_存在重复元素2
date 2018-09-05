@@ -1,0 +1,42 @@
+//别人的一个解法，利用哈希表，O(n)
+class Solution {
+public:
+  bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int,int> nmap;
+        for (int i = 0; i <nums.size();i++)
+        {
+        if (nmap.count(nums[i]) == 0)
+            nmap[nums[i]] = i;
+        else if (i - nmap[nums[i]] <=k)
+            return true;
+        else
+            nmap[nums[i]] = i;   // >k的时候说明前面的都不可能了，继续存下标，继续下一轮
+        }
+        return false;   
+}
+};
+
+//利用滑动窗口，set始终保存nums[i - k]到nums[i - 1]中不同的数，当在set中发现找到相同的元素时就返回true，否则将元素加入set
+//unordered_set是基于哈希表实现的，find操作为O(1)
+//set是基于红黑树实现的，find是基于二分查找的，耗时为logN
+//所以查找方面unordered_set更快一些
+
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k)
+    {
+       unordered_set<int> s;
+       
+       if (k <= 0) return false;
+       if (k >= nums.size()) k = nums.size() - 1;
+       
+       for (int i = 0; i < nums.size(); i++)
+       {
+           if (i > k) s.erase(nums[i - k - 1]);  //维护set的范围
+           if (s.find(nums[i]) != s.end()) return true;
+           s.insert(nums[i]);  //插入新元素
+       }
+       
+       return false;
+    }
+};
