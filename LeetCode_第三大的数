@@ -1,0 +1,14 @@
+//利用set的有序特性，始终保存三个数，当超出时删除第一个数，故set里面始终是top3的数
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        set<int> top3;
+        for(int num:nums)
+        {
+            top3.insert(num);
+            if(top3.size()>3)
+                top3.erase(top3.begin());
+        }
+        return top3.size()==3 ? *top3.begin():*top3.rbegin();
+    }
+};
