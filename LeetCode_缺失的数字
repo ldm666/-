@@ -1,0 +1,18 @@
+//利用下标和数组中元素的值做异或，最后得出的数为缺失的数
+//利用结论：a^b^b=a;
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int result = nums.size();
+        int i=0;
+        
+        for(int num:nums){   //i从0：n-1，又因为要0-n，所以result初始值要为数组长度n
+            result ^= num;
+            result ^= i;
+            i++;
+        }
+        
+        return result;
+    }
+};
