@@ -1,0 +1,17 @@
+//类似于找数组中重复的数字
+//如果没有丢失数字，那么nums[nums[i]-1]将会将数组nums全变为负数，但是如果有丢失数字，那么肯定有一个数没被改为负
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int len = nums.size();
+        for(int i=0; i<len; i++) {
+            int m = abs(nums[i])-1; // index start from 0
+            nums[m] = nums[m]>0 ? -nums[m] : nums[m];
+        }
+        vector<int> res;
+        for(int i = 0; i<len; i++) {
+            if(nums[i] > 0) res.push_back(i+1); //原数组的值=新数组的下标+1
+        }
+        return res;
+    }
+};
