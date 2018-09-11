@@ -1,0 +1,16 @@
+//动态规划
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n<=0)
+            return 0;
+        vector<int> dp(n+1,INT_MAX);   //因为下面是去min，所以初值设置最大int
+        dp[0]=0;                       //把0看做没有平方数，取0
+        for(int i=1;i<=n;i++){          
+            for(int j=1;j*j<=i;j++){           //注意j*j<=i
+                dp[i]=min(dp[i],dp[i-j*j]+1);  //递推关系
+            }
+        }
+        return dp[n];                  //返回最后一个
+    }
+};
