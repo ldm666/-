@@ -7,7 +7,7 @@ public:
         vector<int> dp(n+1,INT_MAX);   //因为下面是去min，所以初值设置最大int
         dp[0]=0;                       //把0看做没有平方数，取0
         for(int i=1;i<=n;i++){          
-            for(int j=1;j*j<=i;j++){           //注意j*j<=i
+            for(int j=1;j*j<=i;j++){           //注意j*j<=i不是<=n !!!!
                 dp[i]=min(dp[i],dp[i-j*j]+1);  //递推关系
             }
         }
