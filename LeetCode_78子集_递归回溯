@@ -1,0 +1,46 @@
+//
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> subs;
+        vector<int> sub;
+        subsets(nums, 0, sub, subs);
+        return subs;
+    }
+private:
+//假设当前遍历好的都放在sub里，并且当前遍历到start位置
+    void subsets(vector<int>& nums, int start, vector<int>& sub, vector<vector<int>>& subs) {
+        subs.push_back(sub);
+        for (int i = start; i < nums.size(); i++) {
+            sub.push_back(nums[i]);
+            subsets(nums, i + 1, sub, subs);
+            sub.pop_back();    //回溯，恢复状态
+        }
+    }
+};
+
+
+//另一种写法：深度搜索。待理解
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> subs;
+        vector<int> sub;
+        subsets(nums, 0, sub, subs);
+        return subs;
+    }
+private:
+    void subsets(vector<int>& nums, int step, vector<int>& sub, vector<vector<int>>& subs) {
+        if(start==nums.size()){
+            subs.push_back(sub);
+            return;
+        }    
+        //每次要么选要么不选
+        //选num[step]
+        sub.push_back(num[step]);
+        subsets(nums,step+1,sub,subs);
+        sub.pop_back();
+        //不选num[step]
+        subsets(nums,step+1,sub,subs);
+    }
+};
