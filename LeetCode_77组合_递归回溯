@@ -1,0 +1,24 @@
+//
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> path;
+        combination(n,k,1,path,res);   //注意这里的初始应该存入1，因为题目数字范围是1...n
+        return res;
+    }
+private:
+    //p中保存着当前遍历到的解C(n,k),求新位置start开始的新解
+    void combination(int n,int k,int start,vector<int> &p,vector<vector<int>> &res){
+        if(p.size()==k){               //注意终止条件
+            res.push_back(p);
+            return;
+        }
+        for(int i=start;i<=n;i++){
+            p.push_back(i);
+            combination(n,k,i+1,p,res);
+            p.pop_back();
+        }
+        return;
+    }
+};
