@@ -1,0 +1,39 @@
+//注意和 78.子集问题作比较
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        if(nums.size()==0){
+            return res;
+        }
+        res.clear();
+        used=vector<bool>(nums.size(),false);
+        vector<int> p;
+        generatePermutation(nums,0,p);
+        return res;
+    }
+private: 
+    vector<bool> used; //标记当前元素是否在path里了
+    vector<vector<int>> res;
+    
+private:
+    // p中保存了一个有index-1个元素的排列。
+    // 向这个排列的末尾添加第index个元素, 获得一个有index个元素的排列
+    
+    void generatePermutation(vector<int> &nums,int index,vector<int> &p){
+        if(index==nums.size()){
+            res.push_back(p);
+            return;
+        }
+
+        for(int i=0;i<nums.size();i++){        //这里和子集问题不同，不再是i=index开始了而是从0开始
+            if(!used[i]){
+                used[i]=true;
+                p.push_back(nums[i]);
+                generatePermutation(nums,index+1,p);
+                used[i]=false;   //回溯
+                p.pop_back();    //回溯
+            }
+        }  
+}
+};
