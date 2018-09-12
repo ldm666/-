@@ -6,6 +6,7 @@ public:
         if(n<=0)
             return 0;
         vector<int> dp(n+1,0);
+        //dp[i]表示将整数n分割i份得到的乘积最大值，明确dp[i]的定义很重要，不然没法做！！！
         dp[0]=0;
         dp[1]=1;
         for(int i=2;i<=n;i++){
