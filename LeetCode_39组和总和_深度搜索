@@ -1,0 +1,27 @@
+//
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());    //排序会快很多
+        res.clear();
+        vector<int> path;
+        dfs(candidates,path,0,target);
+        return res;
+    }
+private:
+    vector<vector<int>> res;
+    //考虑在[start...n-1]添加新状态
+    void dfs(vector<int>& nums,vector<int> &p,int start,int target){
+        if(target==0){
+            res.push_back(p);
+            return;
+        }
+        for(int i=start;i<nums.size();i++){
+            if(target<nums[i])     //剪枝，如果不剪枝，会超时。另外如果不排序的话，这里return可换成continue；排序后beats 99%，否则35%
+                return;
+            p.push_back(nums[i]);
+            dfs(nums,p,i,target-nums[i]);   //这里的start比较难想。。。取i
+            p.pop_back();          
+        }
+    }
+};
