@@ -1,0 +1,59 @@
+//我的解法beats 39%  应该是15行多加的判断拖慢了
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());    //排序会快很多
+        res.clear();
+        vector<int> path;
+        dfs(candidates,path,0,target);
+        return res;
+    }
+private:
+    vector<vector<int>> res;
+    //考虑在[start...n-1]添加新状态
+    void dfs(vector<int>& nums,vector<int> &p,int start,int target){
+        if(target==0 && find(res.begin(),res.end(),p)==res.end()){   //因为数组中有重复元素，所以这里加一个判断，把之前没有的才加进来，beat 39%
+            res.push_back(p);
+            return;
+        }
+        for(int i=start;i<nums.size();i++){
+            if(target<nums[i])     
+                return;
+            p.push_back(nums[i]);
+            dfs(nums,p,i+1,target-nums[i]);   //这里取i+1是因为同一个元素只能用一次，和39题不一样
+            p.pop_back();          
+        }
+    }
+};
+
+//另一种防止集合重复的方法，beats 67%
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());    //排序会快很多
+        res.clear();
+        vector<int> path;
+        dfs(candidates,path,0,target);
+        return res;
+    }
+private:
+    vector<vector<int>> res;
+    //考虑在[start...n-1]添加新状态
+    void dfs(vector<int>& nums,vector<int> &p,int start,int target){
+        if(target==0){
+            res.push_back(p);
+            return;
+        }
+        int previous=-1;
+        for(int i=start;i<nums.size();i++){
+            if(target<nums[i])     
+                return;      
+            if(nums[i]==previous)
+                continue;
+            previous=nums[i];                 //利用previous，如果遇到等于previous的元素，直接跳到下一个元素
+            p.push_back(nums[i]);
+            dfs(nums,p,i+1,target-nums[i]);   
+            p.pop_back();          
+        }
+    }
+};
