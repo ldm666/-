@@ -1,5 +1,4 @@
 //经典DP题
-
 class Solution {
 public:
     int uniquePaths(int m, int n) {
@@ -19,5 +18,29 @@ public:
             }
         }
         return dp[m-1][n-1];   //这里很容易写成dp[m][n]导致下标越界
+    }
+};
+//深度搜索+缓存，备忘录法，可以pass大数据集
+//如果直接return uniquePath(m-1,n)+uniquePath(m,n-1)会超时，只适用于小数据集。
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        f=vector<vector<int>>(m,vector<int>(n,0));
+        f[0][0]=1;
+        return dfs(m-1,n-1);   //注意因为dfs内部是数组下标，所以不是dfs(m,n)
+        }
+private:
+    vector<vector<int>> f;
+    //返回从(0,0)到(x,y)的路径数
+    int dfs(int x,int y){
+        if(x<0 || y<0)       //非法下标，终止条件
+            return 0;
+        if(x==0 && y==0)     //收敛条件，返回
+            return f[0][0];
+        if(f[x][y]>0){
+            return f[x][y];
+        }else{
+            return f[x][y]=dfs(x-1,y)+dfs(x,y-1);      //递推关系
+        }
     }
 };
