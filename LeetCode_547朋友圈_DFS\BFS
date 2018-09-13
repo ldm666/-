@@ -1,0 +1,52 @@
+//经典题DFS/BFS
+//仔细体会DFS和栈，BFS和队列之间的深刻联系
+
+//和200.岛屿个数不一样，这里是表示关系，所以只有M.size()个个体，不是每个元素表示一个个体
+//beats 55.19%
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        int n = M.size(), res = 0;
+        vector<bool> visited(n, false);
+        for (int i = 0; i < n; ++i) {
+            if (visited[i]) continue;
+            dfs(M, i, visited);
+            ++res;
+        }
+        return res;
+    }
+    void dfs(vector<vector<int>>& M, int k, vector<bool>& visited) {
+        visited[k] = true;
+        for (int i = 0; i < M.size(); ++i) {
+            if (M[k][i] && !visited[i]) 
+                dfs(M, i, visited);
+        }
+    }
+};
+
+//BFS  beats 4%
+//利用队列
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        int n = M.size(), res = 0;
+        vector<bool> visited(n, false);
+        queue<int> q;
+        for (int i = 0; i < n; ++i) {
+            if (visited[i]) continue;
+            q.push(i);
+            while (!q.empty()) {
+                int t = q.front(); 
+                q.pop();  //出队
+                visited[t] = true;
+                for (int j = 0; j < n; ++j) {
+                    if (M[t][j] && !visited[j]) 
+                        q.push(j);   //将所有i的朋友加到队尾
+                }
+            }
+            ++res;    //已遍历完第i个同学所在的朋友圈，加1
+        }
+        return res;
+    }
+};
