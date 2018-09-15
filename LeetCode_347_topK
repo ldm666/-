@@ -1,0 +1,46 @@
+//哈希+桶排
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        for (int num : nums)
+            ++m[num];
+        
+        vector<vector<int>> buckets(nums.size() + 1);    //之所以+1，比如说有5个1,然后map[1]=5;我这么说你懂了8
+        for (auto p : m)
+            buckets[p.second].push_back(p.first);
+        
+        vector<int> ans;
+        for (int i = buckets.size() - 1; i >= 0 && ans.size() < k; --i) {
+            for (int num : buckets[i]) {
+                ans.push_back(num);
+                if (ans.size() == k)
+                    break;
+            }
+        }
+        return ans;
+    }
+};
+
+//哈希+堆
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int,int> map;
+        for(int num : nums){
+            map[num]++;
+        }
+        
+        vector<int> res;
+        // pair<first, second>: first is frequency,  second is number
+        priority_queue<pair<int,int>> pq; 
+        for(auto it = map.begin(); it != map.end(); it++){
+            pq.push(make_pair(it->second, it->first));
+            if(pq.size() > (int)map.size() - k){
+                res.push_back(pq.top().second);
+                pq.pop();
+            }
+        }
+        return res;
+    }
+};
