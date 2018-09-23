@@ -1,0 +1,85 @@
+//递归版本
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root==NULL){
+            return res;
+        }
+        res.push_back(root->val);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+        return res;
+    }
+private:
+    vector<int> res;
+};
+
+//非递归版本
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root==NULL){
+            return res;
+        }
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* cur=st.top();
+            st.pop();
+            if(cur->right) st.push(cur->right);
+            if(cur->left) st.push(cur->left);
+            res.push_back(cur->val);
+        }
+        return res;
+    }
+private:
+    vector<int> res;
+};
+
+
+//mooc非递归版本，感觉比上面的复杂
+//使用辅助结构体，每次访问一个节点，都依次将右孩子，左孩子，打印这三个结构体入栈
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root==NULL){
+            return res;
+        }
+        stack<Command> st;
+        st.push(Command("go",root));
+        while(!st.empty()){
+            Command command=st.top();
+            st.pop();
+            if(command.cmd=="print"){
+                res.push_back(command.p->val);
+            }else {
+                if(command.cmd=="go"){
+                    if(command.p->right){
+                        st.push(Command("go",command.p->right));
+                    }
+                    if(command.p->left){
+                        st.push(Command("go",command.p->left));
+                    }
+                    st.push(Command("print",command.p));
+                }
+            }
+        }
+        return res;
+    }
+private:
+    vector<int> res;
+    struct Command{
+        string cmd;
+        TreeNode *p;
+        Command(string str,TreeNode* pa):cmd(str),p(pa){};
+    };
+};
