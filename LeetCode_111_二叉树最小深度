@@ -1,0 +1,44 @@
+//dfs
+//这种方法遍历了所有结点，如果用bfs，则快很多，因为终止条件处就是最小深度处
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if(root==NULL) return 0;
+        if(root->left==NULL) return 1+minDepth(root->right);//如果没有左结点
+        if(root->right==NULL) return 1+minDepth(root->left);//如果没有右结点
+        return 1+min(minDepth(root->left),minDepth(root->right)); //和求最大深度差不多，只不过这里变成了min
+    }
+};
+
+//bfs
+//如果找到第一个没有子结点的结点的话，那么这个结点所处的就是最小层数，即最小高度处，终止返回
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        int res=0;
+        while(!q.empty()){
+            res++;                     //计算层数
+            int n=q.size();
+            for(int i=0;i<n;i++){      //每次将同一层的所有节点出队，然后将下一层的所有结点入队
+                TreeNode* cur=q.front();
+                q.pop();
+                if(cur->left) q.push(cur->left);
+                if(cur->right) q.push(cur->right);
+                if(cur->left==NULL && cur->right==NULL) return res;    //发现一个结点没有子结点，终止
+            }
+        }
+        return res;
+    }
+};
