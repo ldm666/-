@@ -1,0 +1,22 @@
+//dfs
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if(root==NULL) return false;
+        if(root->left==NULL && root->right==NULL && root->val==sum) return true;
+        return hasPathSum(root->left,sum-root->val) || hasPathSum(root->right,sum-root->val);
+    }
+};
+//为什么不能是sum==0为终止条件？
+//终止条件不能是sum==0,因为这个不能保证一定到达叶子结点了，并且sum=0这种并不会出现，因为就算找到了解，在叶子结点也只是val=sum,不会减到0
+//所以解释了为什么写成if(sum==0) return true;的时候会提示member access within null pointer of type 'struct TreeNode' ？？？是这样吗
+//所以细节一定要仔细
