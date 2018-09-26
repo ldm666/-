@@ -1,0 +1,13 @@
+//dfs
+//debug了很久，情况要考虑周全
+
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+         if(p==NULL && q==NULL) return true;  //这种情况说明到达叶子结点并且值一样，说明两棵子树是一样的
+         if(q==NULL && p!=NULL || p==NULL && q!=NULL) return false;   //显然的
+         if(q->val!=p->val) return false; //前面两行排除了指针为空的情况，这里直接判断值
+         if(p->val==p->val) return isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
+    }
+};
+//最后两行可以简化为：return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
