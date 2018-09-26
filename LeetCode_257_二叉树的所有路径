@@ -1,0 +1,22 @@
+//为什么不用回溯，实际上是因为传参是按值传递，不是引用，所以遍历完左子树后对右子树没有影响
+//所以这里每层函数返回时就已经回溯到上一层的状态了
+
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        string str;
+        vector<string> res;
+        if(root==NULL) return res;
+        findallPath(root,res,to_string(root->val));
+        return res;
+    }
+private:
+    void findallPath(TreeNode* cur,vector<string>& res,string str){
+        if(cur->left==NULL && cur->right==NULL) {    //终止条件就是到达叶子结点
+            res.push_back(str);
+            return;
+        }
+        if(cur->left) findallPath(cur->left,res,str+"->"+to_string(cur->left->val));
+        if(cur->right) findallPath(cur->right,res,str+"->"+to_string(cur->right->val));
+    }
+};
