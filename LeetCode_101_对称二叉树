@@ -1,0 +1,27 @@
+//什么是基础情况要考虑清楚
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL) return true;
+        return isSymmetric(root->left,root->right); //判断左右子树是否对称
+    }
+private:
+    bool isSymmetric(TreeNode* left,TreeNode* right){
+        if(left==NULL && right==NULL) return true;      //如果这两个结点都为空，说明上一步到达叶子结点了且没出现问题，true
+        if(left && !right || right && !left || left->val!=right->val ) return false;   //如果两个结点其中一个为空，或者这两个结点值不等，不对称，false
+        return isSymmetric(left->left,right->right) && isSymmetric(left->right,right->left); //主逻辑，上面对于空的情况考虑详尽了
+    }
+};
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3    对称
+
+    1
+   / \
+  2   2
+   \   \
+   3    3   不对称
