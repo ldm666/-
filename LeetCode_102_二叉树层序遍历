@@ -21,3 +21,6 @@ public:
         return res;
     }
 };
+
+//107题要求由下至上存储每层，只需把19行改为res.insert(res.begin(),tmp); beats 99%
+//也试过用栈，但是速度慢了很多beats 2.7%
