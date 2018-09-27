@@ -24,3 +24,35 @@ public:
 
 //107题要求由下至上存储每层，只需把19行改为res.insert(res.begin(),tmp); beats 99%
 //也试过用栈，但是速度慢了很多beats 2.7%
+
+
+//103题要求锯齿状存储，只需引入奇偶层判断即可
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+        int flag=0;  //分奇偶层的不同
+        while(!q.empty()){
+            vector<int> tmp;
+            int n=q.size();
+            for(int i=0;i<n;i++){
+                TreeNode *cur=q.front();
+                q.pop();
+                tmp.push_back(cur->val);
+                if(cur->left) q.push(cur->left);
+                if(cur->right) q.push(cur->right);
+            }
+            if(flag%2==0){
+                res.push_back(tmp);
+            }else{
+                reverse(tmp.begin(),tmp.end()); //反转tmp再推入res
+                res.push_back(tmp);
+            }
+            flag++;
+        }
+        return res;
+    }
+};
