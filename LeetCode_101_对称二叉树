@@ -1,5 +1,5 @@
+//DFS
 //什么是基础情况要考虑清楚
-
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
@@ -25,3 +25,34 @@ private:
   2   2
    \   \
    3    3   不对称
+
+//BFS
+//维护两个队列，一个保存左子树结点，一个保存右子树结点
+//核心思路其实和dfs一样的，只是写法不一样
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL) return true;
+        queue<TreeNode*> q1,q2;
+        q1.push(root->left);
+        q2.push(root->right);
+        while(!q1.empty() && !q2.empty()){
+            TreeNode* left=q1.front();
+            q1.pop();
+            TreeNode* right=q2.front();
+            q2.pop();
+            if(left && !right || !left && right) return false;
+            if(!left && !right) continue;
+            if(left->val==right->val){   //注意入队顺序
+                q1.push(left->left);
+                q1.push(left->right);
+                q2.push(right->right);
+                q2.push(right->left);
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+};
