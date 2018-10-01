@@ -1,0 +1,31 @@
+//递归
+//如果q,p在不同侧，则root就是最近公共祖先，如果q,p在同一侧，则在root的左/右子树继续找
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if ((root -> val > p -> val) && (root -> val > q -> val)) {
+            return lowestCommonAncestor(root -> left, p, q);
+        }
+        if ((root -> val < p -> val) && (root -> val < q -> val)) {
+            return lowestCommonAncestor(root -> right, p, q);
+        }
+        return root;
+    }
+};
+
+//迭代
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* cur = root;
+        while (true) {
+            if ((cur -> val > p -> val) && (cur -> val > q -> val)) {
+                cur = cur -> left;
+            } else if ((cur -> val < p -> val) && (cur -> val < q -> val)) {
+                cur = cur -> right;
+            } else {
+                return cur;
+            }
+        }
+    }
+};
