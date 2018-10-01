@@ -1,0 +1,46 @@
+//liuyubobo解法
+class Solution {
+public:
+    // 在以root为根节点的二叉树中,寻找和为sum的路径,返回这样的路径个数
+    int pathSum(TreeNode* root, int sum) {
+
+        if(root == NULL)
+            return 0;
+
+        return findPath(root, sum)                //如果node的值在当前路径中+node的值不住路径当中(在其左右子树中找) ！！！理解这点很重要
+                + pathSum(root->left , sum)
+                + pathSum(root->right , sum);
+    }
+private:
+    // 在以node为根节点的二叉树中,寻找包含node的路径,和为sum
+    // 返回这样的路径个数
+    int findPath(TreeNode* node, int num){
+
+        if(node == NULL)
+            return 0;
+
+        int res = 0;
+        if(node->val == num)    //之所以这里不直接返回1是考虑到了有负数的情况，
+             res += 1;            意思是即使这层满足了条件找到了一条路径，在这个节点的后面可能还有其他的路径
+            
+        res += findPath(node->left , num - node->val);
+        res += findPath(node->right , num - node->val);
+
+        return res;
+    }
+};
+
+//LeetCode别人的精简解，思路和上面是一样的，都是递归中又包含了另一个递归
+class Solution {
+public:
+    int pathSum(TreeNode* root, int sum) {
+        if(!root) return 0;
+        return Sum(root, 0, sum) + pathSum(root->left, sum) + pathSum(root->right, sum);
+    }
+private:
+    int Sum(TreeNode* root, int pre, int& sum){
+        if(!root) return 0;
+        int current = pre + root->val;
+        return (current == sum) + Sum(root->left, current, sum) + Sum(root->right, current, sum);
+    }
+};
