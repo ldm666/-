@@ -8,11 +8,18 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+              5
+               \
+                8
+               / \
+              13  4
+ 注意只有最底层的13和4才是叶子节点         
+
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int sum) {
-        if(root==NULL) return false;
-        if(root->left==NULL && root->right==NULL && root->val==sum) return true;
+        if(root==NULL) return false;  //判断根结点是否为空
+        if(root->left==NULL && root->right==NULL && root->val==sum) return true;  //判断到达叶子结点了
         return hasPathSum(root->left,sum-root->val) || hasPathSum(root->right,sum-root->val);
     }
 };
@@ -20,3 +27,15 @@ public:
 //终止条件不能是sum==0,因为这个不能保证一定到达叶子结点了，并且sum=0这种并不会出现，因为就算找到了解，在叶子结点也只是val=sum,不会减到0
 //所以解释了为什么写成if(sum==0) return true;的时候会提示member access within null pointer of type 'struct TreeNode' ？？？是这样吗
 //所以细节一定要仔细
+
+//还有终止条件也不能写为：
+if(root==NULL)
+   return sum==0;
+因为这种并不能保证该节点的上一个结点是叶子结点
+sum=5
+              5
+               \
+                8
+               / \
+              13  4
+ 比如这样的话会返回true，实际上应该返回false，因为5不是叶子结点
