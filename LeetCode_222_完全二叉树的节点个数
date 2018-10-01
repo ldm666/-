@@ -1,0 +1,19 @@
+//
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        int hLeft = 0, hRight = 0;
+        TreeNode *pLeft = root, *pRight = root;
+        while (pLeft) {
+            ++hLeft;
+            pLeft = pLeft->left;
+        }
+        while (pRight) {
+            ++hRight;
+            pRight = pRight->right;
+        }
+        if (hLeft == hRight) return pow(2, hLeft) - 1;   //如果是满二叉树，直接代公式
+        return countNodes(root->left) + countNodes(root->right) + 1;  //否则递归求解
+    }
+};
+//如果不考虑满二叉树的情况直接用递归求，LeetCode在最后一个用例会超时
