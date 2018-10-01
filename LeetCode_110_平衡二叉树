@@ -1,0 +1,56 @@
+//我的解法
+//需要求每个节点的左右子树高度，实际上做了很多无用的搜索?好像也没有
+//最坏情况(一直要判断到叶子节点)时间复杂度是O(n*logn)
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL) return true;
+        int l=height(root->left);    //求高度的操作是耗时为logn
+        int r=height(root->right);
+        if(abs(l-r)>1){   //如果当前节点的左右子树高度差超过1，判断为不平衡，否则继续考察该节点的左右节点
+            return false;
+        }else{
+            return isBalanced(root->left) && isBalanced(root->right); //最坏的情况是遍历了整棵树的每个节点，总复杂度n*logn
+        }
+        return true;
+    }
+//辅助函数：求以某个节点为根的子树的高度
+private:                           
+    int height(TreeNode* cur){
+        if(cur==NULL) return 0;
+        return 1+max(height(cur->left),height(cur->right));
+    }
+};
+
+//别人的一种解法：也是利用求树的高度，只不过是在求高度的时候判断是否平衡，很巧妙！
+//感觉会比我的解法快很多，但实际上LeetCode跑的反而更慢？为什么？
+//这种解法从底层向上判断平衡，如果发现不平衡马上返回false；我上面那种做法是从上往下判断平衡
+//在这种例子
+       1
+      / \
+     2   2
+    / \
+   3   3
+  / \
+ 4   4
+ 我的解法直接判断跟节点左右子树高度差就可以了，而解法二则要从底往上一直判断到顶才能发现不平衡，
+ 这就解释了为什么我的解法在LeetCode用例要快一些，这个应该是跟测试用例有关了
+ 那么能不能分析一下我的解法和解法二的算法复杂度呢？？？
+//为什么说该解法是O(n)
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL) return true;
+        height(root);
+        return result;
+    }
+private:
+    bool result=true;  //设置全局变量
+    int height(TreeNode* cur){
+        if(cur==NULL) return 0;
+        int l=height(cur->left);
+        int r=height(cur->right);
+        if(abs(l-r)>1) result=false;   //设置result为false
+        return 1+max(l,r);
+    }
+};
