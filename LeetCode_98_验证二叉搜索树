@@ -1,0 +1,67 @@
+//解法一：递归，利用BST本身的性质
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return isValidBST(root, LONG_MIN, LONG_MAX);   //设置上界和下界
+    }
+    bool isValidBST(TreeNode* root, long mn, long mx){   //每一个结点都判断是否在[上界，下界]范围内
+        if(root==NULL) return true;
+        if(root->val <= mn || root->val >= mx) return false;
+        return isValidBST(root->left, mn, root->val) && isValidBST(root->right, root->val, mx);  //注意由于BST性质，这里左右子树上下界不一样
+    }
+};
+
+//解法二：因为BST中序遍历刚好就是递增的有序数组，所以先中序遍历，然后判断数组是否有序
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if(!root) return true;  //这个不能漏，否则调用inorder时会出现绑定错误，谨记了！！！
+        inorder(root);
+        //return is_sorted(res.begin(),res.end()); 该算法在出现重复数时只要整体上升也会返回true,而这题规定重复的也是false
+        for(int i=0;i<res.size()-1;i++){
+            if(res[i]>=res[i+1]) return false;
+        }
+        return true;
+    }
+private:
+    vector<int> res;
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        res.push_back(root->val);
+        inorder(root->right);
+    }
+};
+
+//还有另外的几个解法：http://www.cnblogs.com/grandyang/p/4298435.html
+//其中包括中序遍历的非递归版本和Morris遍历，可以了解下
+
+
+//我的错解：只考虑了每个节点和它的左右结点符合与否，
+//没有考虑到一棵BST的节点的左子树只包含小于当前节点的数，节点的右子树只包含大于当前节点的数。
+//比如
+  10
+5    15
+   6    20
+就不符合，10的右子树不能出现比它小的
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if(root==NULL) return true;
+        if(root->right && !root->left) return root->right->val > root->val ? isValidBST(root->right):false;
+        if(root->left && !root->right) return root->left->val < root->val ? isValidBST(root->left):false;
+        if(root->left && root->right) {
+            if(root->left->val < root->val){
+                if(root->right->val > root->val){
+                    return isValidBST(root->left) && isValidBST(root->right);
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+};
