@@ -1,0 +1,90 @@
+//解法一：遍历了所有节点，删除所有相同的key
+//这种方法适用于所有二叉树，没怎么利用到BST性质
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(root->val==key){        //如果找到了该节点
+            if(!root->right) {
+                return root->left;  //如果没有右子树，将root更新为它的左子树
+            }else{                       //如果有右子树，找到右子树中的最小值和root的值交换
+            TreeNode* cur=root->right;
+            while(cur->left) cur=cur->left;
+            swap(cur->val,root->val);
+            }
+        }                                      
+        //在左右子树中递归删除该节点
+        root->left=deleteNode(root->left,key);
+        root->right=deleteNode(root->right,key);
+        return root;
+    }
+};
+
+//解法二：利用BST性质可以快速找到要删除的节点
+//为什么这里的递归需要返回值，思考一下！！！
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(root->val > key) {                          //利用BST性质找到要删除的节点
+            root->left=deleteNode(root->left,key);
+        }else if(root->val < key){
+            root->right=deleteNode(root->right,key); 
+        }else{                                             //找到了
+            if(!root->right || !root->left) {              //判断该节点的左右节点是否有空的，如果有，直接root更新为另一个非空子结点；
+                                                           //就算两个孩子都为空，root为NULL也是对的，因为这时候删除root之后后面就没节点了
+            root=(root->left) ? root->left : root->right;
+            }else{                                         //两个孩子都不为空
+            TreeNode* cur=root->right;
+            while(cur->left) cur=cur->left;
+            swap(root->val,cur->val);                      //找到root的右子树中最小的值，和root的值交换，然后在root右子树中递归删除该key
+            root->right=deleteNode(root->right,key);       //这里需要理解清楚！！！！
+            }
+        } 
+        return root;
+    }
+};
+
+//解法三：迭代版本
+
+//是通过BST的性质来快速定位要删除的节点，如果没找到直接返回空。
+//遍历的过程要记录上一个位置的节点pre，如果pre不存在，说明要删除的是根节点，
+//如果要删除的节点在pre的左子树中，那么pre的左子节点连上删除后的节点，反之pre的右子节点连上删除后的节点。
+//在删除函数中，如果左右子节点都不存在，那么返回空；如果有一个不存在，那么我们返回那个存在的；
+//难点还是在于处理左右子节点都存在的情况，还是要找到需要删除节点的右子树中的最小值，然后把最小值赋值给要删除节点，
+//然后就是要处理最小值可能存在的右子树的连接问题，
+//如果要删除节点的右子节点没有左子节点了的话，那么最小值的右子树直接连到要删除节点的右子节点上即可
+//(因为此时原本要删除的节点的值已经被最小值替换了，所以现在其实是要删掉最小值节点)。
+//否则我们就把最小值节点的右子树连到其父节点的左子节点上
+
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        TreeNode *cur = root, *pre = NULL;
+        while (cur) {
+            if (cur->val == key) break;
+            pre = cur;
+            if (cur->val > key) cur = cur->left;
+            else cur = cur->right;
+        }
+        if (!cur) return root;
+        if (!pre) return del(cur);
+        if (pre->left && pre->left->val == key) pre->left = del(cur);
+        else pre->right = del(cur);
+        return root;
+    }
+    TreeNode* del(TreeNode* node) {
+        if (!node->left && !node->right) return NULL;
+        if (!node->left || !node->right) {
+            return (node->left) ? node->left : node->right;
+        }
+        TreeNode *pre = node, *cur = node->right;
+        while (cur->left) {
+            pre = cur;
+            cur = cur->left;
+        }
+        node->val = cur->val;
+        (pre == node ? node->right : pre->left) = cur->right;
+        return node;
+    }
+};
