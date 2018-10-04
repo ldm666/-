@@ -1,0 +1,18 @@
+//二叉树的题递归形式和结构很重要，注意总结套路！！！！
+//和235二次搜索树的公共祖先做比较
+//定义递归函数的功能很重要！！！
+//这里把函数定义为：在root为根结点的树中寻找p和q结点，如果两个都找不到返回NULL，如果找到其中一个则返回这个节点
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==NULL || root==p || root==q)  //如果找到了或者遇到空节点了则返回该节点
+            return root;
+        TreeNode* left=lowestCommonAncestor(root->left, p, q);
+        TreeNode* right=lowestCommonAncestor(root->right, p, q);
+        if(left && right){     //都不为空，说明节点在两侧，root就是父节点
+            return root;
+        }else{                 //如果left为空，说明两个节点都在右边，反之如果right为空，说明两个节点都在左边
+            return left==NULL ? right : left;     //一旦找到了这个公共祖先，则会把这个节点按原路返回上层，返回过程中不变(因为题目保证了数据的唯一性，所以不会有比它更上面的层的其他分支出现找到的情况)
+        }                                         //就是说比如我在倒数第二层找到了left节点，返回的过程中每一层的right必然是空的，保证返回的一直是这个left
+    }
+};
