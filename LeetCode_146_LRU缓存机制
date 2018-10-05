@@ -1,0 +1,38 @@
+// Hash + list
+//将最近访问的元素放在链表首部，新插入的元素放入链表尾部，当超过容量时删除链表尾部的元素
+class LRUCache{
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+    }
+    
+    int get(int key) {
+        auto it = m.find(key);
+        if (it == m.end()) return -1;
+        l.splice(l.begin(), l, it->second);   //把该节点挪到链表首部(迭代器会失效吗？好像不会，为什么？）
+        return it->second->second;
+    }
+    
+    //12行可替换成下面三句：
+    l.push_front(make_pair(it->second->first,it->second->second));  //放到链表头
+    l.erase(it->second);          //这里会使迭代器失效，所以下面要将map里面的迭代器更新
+    it->second=l.begin();
+    //
+    
+    void put(int key, int value) {
+        auto it = m.find(key);
+        if (it != m.end()) l.erase(it->second);
+        l.push_front(make_pair(key, value));
+        m[key] = l.begin();
+        if (m.size() > cap) {
+            int k = l.rbegin()->first;
+            l.pop_back();
+            m.erase(k);
+        }
+    }
+    
+private:
+    int cap;
+    list<pair<int, int>> l;
+    unordered_map<int, list<pair<int, int>>::iterator> m;
+};
