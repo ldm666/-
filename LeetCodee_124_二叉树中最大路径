@@ -4,16 +4,16 @@
 class Solution {
 public:
     int maxPathSum(TreeNode* root) {
-        int res=INT_MIN;
-        helper(root,res);
+        helper(root);
         return res;
     }
 private:
-    int helper(TreeNode* node, int& res){
+    int res=INT_MIN;
+    int helper(TreeNode* node){
         if(!node) return 0;
-        int left=max(helper(node->left,res),0);
-        int right=max(helper(node->right,res),0);
-        res=max(res,left+right+node->val);
+        int left=max(helper(node->left),0);
+        int right=max(helper(node->right),0);
+        res=max(res,left+right+node->val);    
         return max(left,right)+node->val;
     }
 };
