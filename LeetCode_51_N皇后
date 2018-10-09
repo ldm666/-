@@ -1,0 +1,87 @@
+//回溯
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        res.clear();
+        col.clear();
+        dia1.clear();
+        dia2.clear();
+        
+        for(int i=0;i<n;i++)         //在private定义的结构好像只能这么初始化了。
+             col.push_back(false);   //如果不在private定义而在主函数定义，那么要使helper函数看到这些东西，必然要传一堆引用进去，太长了
+           
+        for(int i=0;i<2*n-1;i++){
+            dia1.push_back(false);
+            dia2.push_back(false);
+        }
+        vector<string> row(n,string(n,'.'));    //注意初始化方式，且不能是".",因为这个代表字符串了，不是字符了
+        solveNQueens(n,0,row);
+        return res;
+    }
+private:
+    vector<vector<string>> res; 
+    vector<bool> col,dia1,dia2;   //判断是否合法的辅助空间：列，正对角线，反对角线。
+                                  //另外这里面不能直接初始化为(n,false),因为这里看不到变量n的
+    
+    //尝试将第index行的皇后放在第i列
+    void solveNQueens(int n, int index, vector<string>& row){
+        if(index==n){              
+            res.push_back(row);
+            return;
+        }
+        for(int i=0;i<n;i++){   
+            if(!col[i] && !dia1[index+i] && !dia2[index-i+n-1]){  //如果合法。 另一种判断合法的方法见下面
+                row[index][i]='Q';
+                col[i]=true;
+                dia1[index+i]=true;
+                dia2[index-i+n-1]=true;
+                solveNQueens(n,index+1,row);    //继续在下一行找
+                //回溯
+                row[index][i]='.';
+                col[i]=false;
+                dia1[index+i]=false;
+                dia2[index-i+n-1]=false;
+            }
+        }
+        return;
+}
+};
+
+//LeetCode上的一种判断合法的方法，不过这样的话时间复杂度就增加了
+class Solution {
+public:
+    std::vector<std::vector<std::string> > solveNQueens(int n) {
+        vector<vector<string>> res;
+        vector<string> nQueens(n,string(n, '.'));
+        solveNQueens(res, nQueens, 0, n);
+        return res;
+    }
+private:
+    void solveNQueens(vector<vector<std::string> > &res, vector<string> &nQueens, int row, int &n) {
+        if (row == n) {
+            res.push_back(nQueens);
+            return;
+        }
+        for (int col = 0; col != n; ++col)
+            if (isValid(nQueens, row, col, n)) {
+                nQueens[row][col] = 'Q';
+                solveNQueens(res, nQueens, row + 1, n);
+                nQueens[row][col] = '.';
+            }
+    }
+    bool isValid(std::vector<std::string> &nQueens, int row, int col, int &n) {
+        //check if the column had a queen before.
+        for (int i = 0; i != row; ++i)
+            if (nQueens[i][col] == 'Q')
+                return false;
+        //check if the 45° diagonal had a queen before.
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j)
+            if (nQueens[i][j] == 'Q')
+                return false;
+        //check if the 135° diagonal had a queen before.
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; --i, ++j)
+            if (nQueens[i][j] == 'Q')
+                return false;
+        return true;
+    }
+}
