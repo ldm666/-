@@ -39,3 +39,6 @@ public:
         return true;
     }
 };
+
+//看Java版本可能好理解一些
+https://leetcode.com/problems/sudoku-solver/discuss/15752/Straight-Forward-Java-Solution-Using-Backtracking
