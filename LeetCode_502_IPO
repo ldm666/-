@@ -1,0 +1,82 @@
+//贪心
+//注意堆的使用
+//std::pair可以比较大小，先按first比较，如果相等，再按照second比较
+class Solution {
+public:
+    int findMaximizedCapital(int k, int W, vector<int>& Profits, vector<int>& Capital) {
+        priority_queue<pair<int,int>, vector<pair<int ,int>>, greater<pair<int,int>>> pcost;   //小根堆
+        priority_queue<pair<int,int>> pfits;   //默认是大根堆
+        int result=W;
+        for(int i=0;i<Capital.size();i++){
+            pcost.push({Capital[i],Profits[i]});   //以first为比较
+        }
+        for(int i=0;i<k;i++){
+            while(!pcost.empty() && pcost.top().first<=W){
+                pfits.push({pcost.top().second,pcost.top().first});    ////std::pair可以比较大小，先按first比较，如果相等，再按照second比较。所以这里反过来push
+                pcost.pop();
+            }
+            if(pfits.empty())   //如果为空，说明现在的钱已经做不到任何项目了
+                return W;
+            W+=pfits.top().first;
+            pfits.pop();   
+        }
+        return W;
+    }
+
+};
+
+//解法二
+//下面这种方法跟上面的解法思路完全一样，就是数据结构有些变化。
+//我们用multiset来模拟最小堆，然后最大堆还是用优先队列来实现，不过是需要存利润值就行了，不需要存对应的资本了
+//multiset内部自动排序了
+
+class Solution {
+public:
+    int findMaximizedCapital(int k, int W, vector<int>& Profits, vector<int>& Capital) {
+        priority_queue<int> q;
+        multiset<pair<int, int>> s;
+        for (int i = 0; i < Capital.size(); ++i) {
+            s.insert({Capital[i], Profits[i]});
+        }
+        for (int i = 0; i < k; ++i) {
+            for (auto it = s.begin(); it != s.end(); ++it) {
+                if (it->first > W) break;
+                q.push(it->second);
+                s.erase(it);
+            }
+            if (q.empty()) break;
+            W += q.top(); q.pop();
+        }
+        return W;
+    }
+};
+
+//解法三
+//http://www.cnblogs.com/grandyang/p/6788811.html
+class Solution {
+public:
+    int findMaximizedCapital(int k, int W, vector<int>& Profits, vector<int>& Capital) {
+        vector<pair<int, int>> v;
+        for (int i = 0; i < Capital.size(); ++i) {
+            v.push_back({Capital[i], Profits[i]});
+        }
+        sort(v.begin(), v.end());
+        for (int i = 0; i < k; ++i) {
+            int left = 0, right = v.size(), mx = 0, idx = 0;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (v[mid].first <= W) left = mid + 1;
+                else right = mid;
+            }
+            for (int j = right - 1; j >= 0; --j) {
+                if (mx < v[j].second) {
+                    mx = v[j].second;
+                    idx = j;
+                }
+            }
+            W += mx;
+            v.erase(v.begin() + idx);
+        }
+        return W;
+    }
+};
