@@ -1,3 +1,29 @@
+//解法一：
+//这里好像不需要辅助数组tmp?
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> tmp;
+        permute(nums,0,res);
+        return res;
+    }
+private:
+    void permute(vector<int>& nums, int index, vector<vector<int>>& res){
+        if(index==nums.size()){
+            res.push_back(nums);
+            return;
+        }
+        for(int i=index;i<nums.size();i++){
+            swap(nums[i],nums[index]);
+            permute(nums,index+1,res);
+            swap(nums[i],nums[index]);
+        }
+    }
+};
+
+
+//解法二：
 //注意和 78.子集问题作比较
 
 class Solution {
