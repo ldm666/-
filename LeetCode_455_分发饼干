@@ -1,0 +1,45 @@
+//贪心算法:尽可能把最小的饼干分给每位儿童，并且从需求最小的儿童开始分
+//双指针
+public class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        
+        int pointG = 0;
+        int pointS = 0;
+        
+        while (pointG<g.length && pointS<s.length) {
+            if (g[pointG]<=s[pointS]) {
+                pointG++;
+                pointS++;
+            } else {
+                pointS++;
+            }
+        }
+        
+        return pointG;
+    }
+}
+
+
+//我的低效解法
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        int res=0;
+        sort(g.begin(),g.end());
+        sort(s.begin(),s.end());
+        for(int i=0;i<g.size();i++){
+            auto it=s.begin();
+            for(int j=0;j<s.size();j++){
+                if(g[i]<=s[j]) {
+                    res++;
+                    it+=j;
+                    s.erase(it);
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+};
