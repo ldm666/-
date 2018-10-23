@@ -1,0 +1,43 @@
+//贪心算法
+//尽可能把10花出去，尽可能留下5
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        int five=0,ten=0;
+        for(int i:bills){
+            if(i==5) five++;
+            else if(i==10) ten++,five--;
+            else if(ten>0) five--,ten--;
+            else five-=3;
+            if(five<0) return false;
+        }
+        return true;
+    }
+};
+
+//思路同上
+lass Solution {
+    public boolean lemonadeChange(int[] bills) {
+       int cnt_five=0;
+       int cnt_ten=0;
+        for(int bill:bills){
+            if(bill==5){
+                cnt_five++;
+            }else if(bill==10){
+                if(cnt_five==0) return false;
+                cnt_five--;
+                cnt_ten++;
+            }else{
+                if(cnt_ten!=0 && cnt_five!=0){
+                    cnt_ten--;
+                    cnt_five--;
+                }else if(cnt_five>=3){
+                    cnt_five-=3;
+                }else{
+                    return false;
+                }
+            }
+        }
+     return true;
+    }
+}
