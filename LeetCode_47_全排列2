@@ -1,5 +1,5 @@
 有重复数字，按照46的解法会导致有重复的组合出现
-
+//解一
 class Solution {
 public:
     void recursion(vector<int> num, int i, int j, vector<vector<int> > &res) {
@@ -21,3 +21,30 @@ public:
         return res;
     }
 };
+
+//解二：利用set去重
+链接：https://www.nowcoder.com/questionTerminal/fe6b651b66ae47d7acce78ffdd9a96c7
+来源：牛客网
+
+void PermutationHelp(vector<string> &ans, int k, string str) //遍历第k位的所有可能
+{
+    if(k == str.size() - 1)
+        ans.push_back(str);
+    unordered_set<char> us;  //记录出现过的字符
+    sort(str.begin() + k, str.end());  //保证按字典序输出
+    for(int i = k; i < str.size(); i++)
+    {
+        if(us.find(str[i]) == us.end()) //只和没交换过的换
+        {  
+            us.insert(str[i]);
+            swap(str[i], str[k]);
+            PermutationHelp(ans, k + 1, str);
+        }
+    }
+}
+ 
+vector<string> Permutation(string str) {
+    vector<string> ans;
+    PermutationHelp(ans, 0, str);
+    return ans;
+}
