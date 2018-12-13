@@ -11,7 +11,7 @@ public:
             if (i != k && num[i] == num[k]) continue;  //跳过重复的数字
             swap(num[i], num[k]);
             recursion(num, i+1, j, res);
-            //如果传值的话，不用复位
+            //如果传值的话，不用复位；每次递归的时候str作为形参参与下一次交换，不影响上层值，所以上层还是排好序的
         }
     }
     vector<vector<int> > permuteUnique(vector<int> &num) {
