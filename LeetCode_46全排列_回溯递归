@@ -1,3 +1,5 @@
+输入中没有重复数字
+
 //解法一：
 //这里好像不需要辅助数组tmp?
 class Solution {
@@ -17,7 +19,7 @@ private:
         for(int i=index;i<nums.size();i++){
             swap(nums[i],nums[index]);
             permute(nums,index+1,res);
-            swap(nums[i],nums[index]);
+            swap(nums[i],nums[index]);   //因为nums是传的引用，该层改变了会影响上一层的值，所以要复位；如果是传值，则不需要复位
         }
     }
 };
