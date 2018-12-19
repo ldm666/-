@@ -1,0 +1,18 @@
+//利用快慢指针，详细解释见https://leetcode-cn.com/problems/linked-list-cycle/solution/
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==nullptr || head->next==nullptr)
+            return false;
+        ListNode* fast=head->next;
+        ListNode* slow=head;
+        //这里不用判断慢指针为空的情况，因为如果存在环，则不会出现空；如果不存在环，则快指针会先一步到尾部，在if里已经提前返回了
+        while(fast!=slow){
+            if(fast==nullptr || fast->next==nullptr)
+                return false;
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        return true;
+    }
+};
