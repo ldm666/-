@@ -1,4 +1,5 @@
 //如何证明？？？
+//证明见https://www.nowcoder.com/questionTerminal/253d2c59ec3e4bc68da16833f79a38e4
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
