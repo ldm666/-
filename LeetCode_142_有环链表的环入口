@@ -1,0 +1,25 @@
+//如何证明？？？
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow=head;
+        ListNode* fast=head;
+        //判断是否有环，快指针总比慢指针快一步
+        while(fast && fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow == fast)
+                break;
+        }
+        //如果无环
+        if(fast==nullptr || fast->next==nullptr )
+            return nullptr;
+        //如果有环，则将其中一个放回头部从头开始走，接下来两个步骤一致
+        slow=head;
+        while(slow != fast){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        return slow;
+    }
+};
