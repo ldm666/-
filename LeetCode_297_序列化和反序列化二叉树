@@ -74,19 +74,17 @@ public:
         q.push(cur);
         while (!q.empty()) {
             TreeNode *t = q.front(); q.pop();
-            if (!(in >> val)) break;          //此时已经放入了一个string了
-            //推入左孩子
-            if (val != "#") {
-                cur = new TreeNode(stoi(val));
-                q.push(cur);
-                t->left = cur;
-            }
-            //推入右孩子
             if (!(in >> val)) break;
             if (val != "#") {
                 cur = new TreeNode(stoi(val));
-                q.push(cur);
-                t->right = cur;
+                t->left = cur;
+                q.push(t->left);
+            }
+            if (!(in >> val)) break;
+            if (val != "#") {
+                cur = new TreeNode(stoi(val));
+                t->right=cur;
+                q.push(t->right);
             }
         }
         return res;
