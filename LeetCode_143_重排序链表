@@ -1,0 +1,40 @@
+
+//求中点的时候究竟快指针初始值是head还是head->next，对中点有影响吗？无论哪种方法，循环结束时slow都是一样的
+//记住一点，对循环结束的slow->next=null  切断
+//38 和 39行不能掉乱，因为这样会导致after的下一个结点丢失
+class Solution {
+public:
+    void reorderList(ListNode *head) {
+        if(head==nullptr || head->next==nullptr)
+            return;
+        //找链表中点
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next && fast->next->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        //从中点开始逆转链表,这里是slow的下一个结点
+        ListNode* after=slow->next;
+        slow->next=nullptr;    //切断
+        ListNode* pre=nullptr;
+        //翻转后半部分链表
+        while(after){
+            ListNode* tmp=after->next;
+            after->next=pre;
+            pre=after;
+            after=tmp;
+        }
+        //将翻转后的后半部分链表间隔地插入到前半部分的链表中
+        after=pre;//指向后半链表（翻转后）的头结点
+        ListNode* first=head;//指向头结点
+        while(after && first){
+            ListNode* next=first->next; //保存结点
+            first->next=after;          //插入
+            after=after->next;          //移到下一个位置
+            first->next->next=next;
+            first=next;
+        }
+        return;
+    }
+};
