@@ -1,0 +1,32 @@
+用快慢指针来记录遍历的坐标，最开始时两个指针都指向第一个数字，如果两个指针指的数字相同，则快指针向前走一步
+如果不同，则两个指针都向前走一步，这样当快指针走完整个数组后，慢指针当前的坐标加1就是数组中不同数字的个数
+//解一
+//slow总是指向不重复的最后一个元素
+//fast实际上就是cur
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int len=nums.size();
+        if(len==0) return 0;
+        int slow=0,fast=0;
+        while(fast < len){
+            if (nums[slow]==nums[fast]) fast++;
+            else nums[++slow]=nums[fast++];
+        }
+        return slow+1;
+    }
+};
+
+//解二，思路同上，写法不一样
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int j = 0, n = nums.size();
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] != nums[j]) nums[++j] = nums[i];
+        }
+        return j + 1;
+    }
+};
