@@ -1,0 +1,27 @@
+//利用快慢指针和栈
+//我们还需要用栈，每次慢指针走一步，都把值存入栈中，等到达中点时，链表的前半段都存入栈中了，
+//由于栈的后进先出的性质，就可以和后半段链表按照回文对应的顺序比较了
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(!head || !head->next) return true;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        stack<int> s;
+        s.push(slow->val);
+        while(fast->next && fast->next->next){
+            fast=fast->next->next;
+            slow=slow->next;
+            s.push(slow->val);
+        }
+        if(!fast->next) s.pop();  //链表为奇数长，此时栈顶为中点元素，弹出
+        slow=slow->next; //从下半部分开始和栈元素一一比较
+        while(slow){
+            int k=s.top();
+            s.pop();
+            if(k!=slow->val) return false;
+            slow=slow->next;
+        }
+        return true;
+    }
+};
