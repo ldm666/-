@@ -1,3 +1,4 @@
+//解一：非递归版
 //利用虚拟头节点dummy
 //具体思想就是新建一个链表，然后比较两个链表中的元素值，把较小的那个链到新链表中，由于两个输入链表的长度可能不同，
 //所以最终会有一个链表先完成插入所有元素，则直接另一个未完成的链表直接链入新链表的末尾
@@ -18,5 +19,23 @@ public:
         }
         cur->next=l1 ? l1 : l2;
         return dummy->next;
+    }
+};
+
+//解二：递归版
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1==nullptr) return l2;
+        if(l2==nullptr) return l1;
+        ListNode* newhead=nullptr;
+        if(l1->val > l2->val){
+            newhead=l2;
+            newhead->next=mergeTwoLists(l1,l2->next);
+        }else{
+            newhead=l1;
+            newhead->next=mergeTwoLists(l1->next,l2);
+        }
+        return newhead;
     }
 };
