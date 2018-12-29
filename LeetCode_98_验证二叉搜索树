@@ -4,9 +4,9 @@ public:
     bool isValidBST(TreeNode* root) {
         return isValidBST(root, LONG_MIN, LONG_MAX);   //设置上界和下界
     }
-    bool isValidBST(TreeNode* root, long mn, long mx){   //每一个结点都判断是否在[上界，下界]范围内
+    bool isValidBST(TreeNode* root, long mn, long mx){   //每一个结点都判断是否在[上界，下界]范围内；注意参数类型必须保持一致，不能声明为int
         if(root==NULL) return true;
-        if(root->val <= mn || root->val >= mx) return false;
+        if(root->val <= mn || root->val >= mx) return false; //等号不能省，因为题目要求不能有相同的节点
         return isValidBST(root->left, mn, root->val) && isValidBST(root->right, root->val, mx);  //注意由于BST性质，这里左右子树上下界不一样
     }
 };
