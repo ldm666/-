@@ -33,8 +33,29 @@ private:
     }
 };
 
-//还有另外的几个解法：http://www.cnblogs.com/grandyang/p/4298435.html
-//其中包括中序遍历的非递归版本和Morris遍历，可以了解下
+//解三：非递归版中序遍历，利用栈
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        stack<TreeNode*> s;
+        TreeNode* p=root,*pre=nullptr;
+        while(p || !s.empty()){
+            while(p){
+                s.push(p);
+                p=p->left;
+            }
+            TreeNode* cur=s.top();
+            s.pop();
+            if(pre && cur->val <= pre->val) return false;
+            pre=cur;
+            p=cur->right;
+        }
+        return true;
+    }
+};
+
+//还有另外的解法：http://www.cnblogs.com/grandyang/p/4298435.html
+//Morris遍历，可以了解下
 
 
 //我的错解：只考虑了每个节点和它的左右结点符合与否，
