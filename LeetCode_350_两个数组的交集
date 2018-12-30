@@ -1,0 +1,14 @@
+//http://www.cnblogs.com/grandyang/p/5533305.html
+//没看懂为什么这种解法能求交集。。。
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> m;
+        vector<int> res;
+        for (auto a : nums1) ++m[a];
+        for (auto a : nums2) {
+            if (m[a]-- > 0) res.push_back(a);
+        }
+        return res;
+    }
+};
