@@ -1,0 +1,29 @@
+//其他解法见https://leetcode.com/problems/missing-number/solution/   官方解答一定要看，很多新解法和复杂度比较
+和http://www.cnblogs.com/grandyang/p/4756677.html
+
+//等差数列求和
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int sum = 0, n = nums.size();
+        for (auto &a : nums) {
+            sum += a;
+        }
+        return 0.5 * n * (n + 1) - sum;
+    }
+};
+
+//二分法：如果数组是有序的，面试时这种方法很不错
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        int left=0,right=nums.size();
+        while(left < right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]>mid) right=mid;
+            else left=mid+1;
+        }
+        return left;
+    }
+};
