@@ -1,0 +1,23 @@
+//利用stl::isalnum判断是否是字母或者数字
+//利用stl::transform将字母统一转换为小写
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if(s.size()==0 || s.size()==1) return true;
+        transform(s.begin(), s.end(), s.begin(),::tolower);
+        int start=0,end=s.size()-1;
+        while(start < end){
+            if(!isalnum(s[start])){
+                start++;
+            }else if(!isalnum(s[end])){
+                end--;
+            }else if(s[start]==s[end]){
+                start++;
+                end--;
+            }else{
+                return false;  
+            } 
+        }
+        return true;
+    }
+};
