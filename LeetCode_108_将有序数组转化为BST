@@ -14,7 +14,7 @@ private:
         if(left>right) return NULL;
         int mid=(left+right)/2;
         TreeNode* cur=new TreeNode(nums[mid]);
-        cur->left=sortedArrayToBST(nums,left,mid-1);
+        cur->left=sortedArrayToBST(nums,left,mid-1);   //注意左右界限一定要写对
         cur->right=sortedArrayToBST(nums,mid+1,right);
         return cur;
     }
