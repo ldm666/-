@@ -1,0 +1,14 @@
+//解法很多，见http://www.cnblogs.com/grandyang/p/4389572.html
+//先转置矩阵，再将每行的元素逆序
+class Solution {
+public:
+    void rotate(vector<vector<int> > &matrix) {
+        int n = matrix.size();
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+            reverse(matrix[i].begin(), matrix[i].end());
+        }
+    }
+};
