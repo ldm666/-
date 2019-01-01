@@ -1,0 +1,11 @@
+解析见：http://www.cnblogs.com/grandyang/p/4217175.html
+//巧妙的解法
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] < nums[i - 1]) return i - 1;
+        }
+        return nums.size() - 1;
+    }
+};
