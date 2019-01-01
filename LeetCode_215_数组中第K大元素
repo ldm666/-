@@ -11,7 +11,7 @@ public:
         int l=0,r=nums.size()-1;
         while(true){
             int pos=partition(nums, l, r);
-            if (pos==k-1) return nums[pos];
+            if (pos==k-1) return nums[pos];  //这种解法要求的快排是:左边都比nums[pos]要大，右边都比nums[pos]小
             else if (pos>k-1) r=pos-1;
             else l=pos+1;
         }
