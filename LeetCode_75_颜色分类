@@ -1,0 +1,33 @@
+// 类似三路快排和荷兰国旗的思想：一次遍历，如果是0，则移动到表头，如果是2，则移动到表尾，不用考虑1。0和2处理完，1还会有错吗？
+// 定义red指针指向开头位置，blue指针指向末尾位置
+// 从头开始遍历原数组，如果遇到0，则交换该值和red指针指向的值，并将red指针后移一位。
+// 若遇到2，则交换该值和blue指针指向的值，并将blue指针前移一位。若遇到1，则继续遍历。
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int red=0,blue=nums.size()-1;
+        for(int i=0;i<=blue;++i){
+            if(nums[i]==0){
+              swap(nums[i],nums[red++]);  
+            }else if(nums[i]==2){
+              swap(nums[i--],nums[blue--]);    // 注意这里要i--,因为此时i位置是原来的blue位置的数，不知道是0/1/2的哪一个，所以要回退一位重新判断
+            }
+        }
+    }
+};
+
+
+//排序计数，两次遍历
+//看看人家的写法，自己写三个循环还要出错，弟弟啊
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int count[3] = {0}, idx = 0;
+        for (int i = 0; i < nums.size(); ++i) ++count[nums[i]];
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < count[i]; ++j) {
+                nums[idx++] = i;
+            }
+        }
+    }
+};
