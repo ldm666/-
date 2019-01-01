@@ -22,10 +22,31 @@ public:
     }
 };
 
-//解二：利用set去重
-链接：https://www.nowcoder.com/questionTerminal/fe6b651b66ae47d7acce78ffdd9a96c7
-来源：牛客网
+//解二：利用set去重，又因为set内部排序，所以最后的结果也是按字典序输出的
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        set<vector<int>> s;
+        permute(nums,0,s);
+        vector<vector<int>> res(s.begin(),s.end());
+        return res;
+    }
+private:
+    void permute(vector<int>& nums, int index,set<vector<int>>& s){
+        if(index==nums.size()){
+            s.insert(nums);
+            return;
+        }
+        for(int i=index;i<nums.size();i++){
+            swap(nums[i],nums[index]);
+            permute(nums,index+1,s);
+            swap(nums[i],nums[index]);   
+        }
+    }
+};
 
+//另外牛客上另外的解法，链接：https://www.nowcoder.com/questionTerminal/fe6b651b66ae47d7acce78ffdd9a96c7
+来源：牛客网
 void PermutationHelp(vector<string> &ans, int k, string str) //遍历第k位的所有可能
 {
     if(k == str.size() - 1)
