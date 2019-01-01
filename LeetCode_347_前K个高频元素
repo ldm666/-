@@ -1,4 +1,25 @@
 //哈希+桶排
+//简洁
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        vector<vector<int>> bucket(nums.size() + 1);
+        vector<int> res;
+        for (auto a : nums) ++m[a];
+        for (auto it : m) {
+            bucket[it.second].push_back(it.first);
+        }
+        for (int i = nums.size(); i >= 0; --i) {
+            for (int j = 0; j < bucket[i].size(); ++j) {
+                res.push_back(bucket[i][j]);
+                if (res.size() == k) return res;
+            }
+        }
+        return res;
+    }
+    
+//同上，但没那么简洁
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
@@ -23,6 +44,24 @@ public:
 };
 
 //哈希+堆
+//简洁
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> res;
+        unordered_map<int,int> m;
+        priority_queue<pair<int,int>> q;
+        for(int k : nums) m[k]++;
+        for(auto it : m) q.push({it.second,it.first}); //注意第一个元素是次数
+        for(int i=0;i<k;++i){
+            res.push_back(q.top().second);  //第二个元素是元素
+            q.pop();
+        }
+        return res;
+    }
+};
+
+//同上，不过写法麻烦些
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
