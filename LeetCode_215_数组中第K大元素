@@ -29,7 +29,7 @@ private:
                 r--;
         }
         swap(nums[left],nums[r]);
-        return r;
+        return r;                 //不能return l，因为跳出while的时候l和r不一定相等，有可能差1；画画图想临界情况也就知道应该返回r的
     }
 };
 
