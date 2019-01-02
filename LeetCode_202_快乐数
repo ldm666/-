@@ -1,0 +1,34 @@
+//利用set将出现过的数字记录下，当有重复出现时或者等1时(成功找到) 循环结束
+class Solution {
+public:
+    bool isHappy(int n) {
+        set<int> s;
+        while(n!=1){
+            int t=0;
+            while(n){
+                t+=(n%10)*(n%10);
+                n/=10;
+            }
+            n=t;
+            if(s.count(t)) break;
+            else s.insert(t);
+        }
+        return n==1;
+    }
+};
+
+//根据规律，非快乐数迭代过程中一定会出现4，根据此特点无需用额外空间
+class Solution {
+public:
+    bool isHappy(int n) {
+        while (n != 1 && n != 4) {
+            int t = 0;
+            while (n) {
+                t += (n % 10) * (n % 10);
+                n /= 10;
+            }
+            n = t;
+        }
+        return n == 1;
+    }
+};
