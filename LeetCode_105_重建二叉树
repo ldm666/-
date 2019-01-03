@@ -13,6 +13,7 @@ public:
  
     TreeNode* helper(vector<int>& preorder,int i,int j,vector<int>& inorder,int ii,int jj)
     {
+        //i为前序开始的位置，j为前序右边界(取不到)；ii为中序的起始位置，jj为中序的右边界(取不到)
         // tree        8 4 5 3 7 3
         // preorder    8 [4 3 3 7] [5]
         // inorder     [3 3 4 7] 8 [5]
