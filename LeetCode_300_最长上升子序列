@@ -1,0 +1,52 @@
+//子序列不要求连续
+http://www.cnblogs.com/grandyang/p/4938187.html
+//O(n*logn)解法，利用二分，太巧妙了，自己多举例子就懂了,比如12301345
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp;
+        for (int i = 0; i < nums.size(); ++i) {
+            int left = 0, right = dp.size();
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (dp[mid] < nums[i]) left = mid + 1;
+                else right = mid;
+            }
+            if (right >= dp.size()) dp.push_back(nums[i]);
+            else dp[right] = nums[i];
+        }
+        return dp.size();
+    }
+};
+
+//利用STL lowerbound实现类似上面思路的解法
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> v;
+        for (auto a : nums) {
+            auto it = lower_bound(v.begin(), v.end(), a);
+            if (it == v.end()) v.push_back(a);
+            else *it = a;
+        }
+　　　　　 　return v.size();
+    }
+};
+
+
+//O(n^2)的DP解法
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size(),1);
+        int res=0;
+        for(int i=0;i<nums.size();++i){
+            for(int j=0;j<i;++j){
+                if(nums[i]>nums[j])
+                    dp[i]=max(dp[i],dp[j]+1);
+            }
+            res=max(res,dp[i]);
+        }
+        return res;
+    }
+};
