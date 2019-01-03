@@ -1,0 +1,23 @@
+http://www.cnblogs.com/grandyang/p/5138936.html
+//利用双指针，画图，比较抽象
+pre指向奇节点，cur指向偶节点，然后把偶节点cur后面的那个奇节点提前到pre的后面，
+然后pre和cur各自前进一步，此时cur又指向偶节点，pre指向当前奇节点的末尾，
+以此类推直至把所有的偶节点都提前了即可
+//注意15、16行的顺序不能调转
+
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(!head || !head->next) return head;
+        ListNode* pre=head,*cur=head->next;
+        while(cur && cur->next){
+            ListNode* tmp=pre->next;    //保存偶链表的头部，可以使得奇链表的尾部指向它
+            pre->next=cur->next;        //串联下一个奇节点
+            cur->next=cur->next->next;  //串联下一个偶节点
+            pre->next->next=tmp;        //使得当前最后一个奇节点指向偶链表头部
+            cur=cur->next;              //移动下一个位置，下同
+            pre=pre->next;
+        }
+        return head;
+    }
+};
