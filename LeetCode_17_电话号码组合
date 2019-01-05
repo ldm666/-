@@ -1,0 +1,42 @@
+//递归
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()) return {};
+        vector<string> res;
+        string dict[]={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        letterCombinationsDFS(digits,dict,0,"",res);
+        return res;
+    }
+private:
+    //out为传值，不需要回溯
+    void letterCombinationsDFS(string digits, string dict[], int level, string out, vector<string>& res){
+        if(level==digits.size()) {
+            res.push_back(out);
+            return; 
+        }
+        string str=dict[digits[level]-'0'];
+        for(int i=0;i<str.size();++i){
+            letterCombinationsDFS(digits,dict,level+1,out+string(1,str[i]),res);
+        }
+    }
+};
+
+//迭代
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if (digits.empty()) return {};
+        vector<string> res{""};
+        string dict[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        for (int i = 0; i < digits.size(); ++i) {
+            vector<string> t;
+            string str = dict[digits[i] - '0'];
+            for (int j = 0; j < str.size(); ++j) {
+                for (string s : res) t.push_back(s + str[j]);  //在当前所有组合的后面加上当前遍历到的字符
+            }
+            res = t;  //更新res数组
+        }
+        return res;
+    }
+};
