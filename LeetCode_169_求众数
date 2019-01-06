@@ -1,0 +1,21 @@
+http://www.cnblogs.com/grandyang/p/4233501.html
+//摩尔投票法
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int res=0,count=0;
+        for(int num : nums){
+            if(count==0) {
+                res=num;
+                count++;
+            }else{
+                (num==res) ? ++count : --count;
+            }
+        }
+        return res;
+    }
+};
+
+//哈希法的话需要额外空间
+
+//貌似还能用位运算？
