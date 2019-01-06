@@ -1,0 +1,32 @@
+动态规划 http://www.cnblogs.com/grandyang/p/4464476.html
+dp[i][j]表示字符串区间[i, j]是否为回文串，当i = j时，只有一个字符，肯定是回文串，如果i = j + 1，说明是相邻字符，
+此时需要判断s[i]是否等于s[j]，如果i和j不相邻，即i - j >= 2时，
+除了判断s[i]和s[j]相等之外，dp[j + 1][i - 1]若为真，就是回文串
+dp[i, j] = 1                                           if i == j
+
+         = s[i] == s[j]                                if j = i + 1
+
+         = s[i] == s[j] && dp[i + 1][j - 1]            if j > i + 1    
+//弄清递推关系之后还要弄清楚矩阵从哪开始填，因为dp[i][j]得知道dp[i+1][j-1]是什么，即当j>i+1时要知道当前位置的前一列的下一行位置的数字
+//所以得填充矩阵的右上三角形，而且是从第一列开始
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if(s.empty()) return "";
+        int dp[s.size()][s.size()]={0},len=0,left=0,right=0;
+        for(int j=0;j<s.size();++j){
+            for(int i=0;i<j;++i){
+                dp[i][j]=(s[i]==s[j] && (j-i<2 || dp[i+1][j-1]));
+                if(dp[i][j] && len<j-i+1){
+                    len=j-i+1;
+                    right=j;
+                    left=i;
+                }
+            }
+            dp[j][j]=1;
+        }
+        return s.substr(left,right-left+1);
+    }
+};
+
+//了解一下马拉车算法，见上面的链接
