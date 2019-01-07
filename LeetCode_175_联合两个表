@@ -1,0 +1,6 @@
+关于mysql的表相交的总结：http://www.cnblogs.com/grandyang/p/5346963.html
+
+三种解法：left join，USING指令，Natural
+SELECT Person.FirstName, Person.LastName, Address.City, Address.State FROM Person LEFT JOIN Address ON Person.PersonId = Address.PersonId;
+SELECT Person.FirstName, Person.LastName, Address.City, Address.State FROM Person LEFT JOIN Address USING(PersonId);
+SELECT Person.FirstName, Person.LastName, Address.City, Address.State FROM Person NATURAL LEFT JOIN Address;
