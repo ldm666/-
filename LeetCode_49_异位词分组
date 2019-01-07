@@ -1,0 +1,40 @@
+//因为排序后的异位词都是一样的，可以当做哈希表的键
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        unordered_map<string,vector<string>> m;
+        for(auto str : strs){
+            string t=str;
+            sort(t.begin(),t.end());
+            m[t].push_back(str);
+        }
+        for(auto a : m){
+            res.push_back(a.second);
+        }
+        return res;
+    }
+};
+
+
+//改进版，不用排序
+http://www.cnblogs.com/grandyang/p/4385822.html
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> m;
+        for (string str : strs) {
+            vector<int> cnt(26, 0);
+            string t = "";
+            for (char c : str) ++cnt[c - 'a'];
+            for (int d : cnt) t += to_string(d) + "/";
+            m[t].push_back(str);
+        }
+        for (auto a : m) {
+            res.push_back(a.second);
+        }
+        return res;
+    }
+};
