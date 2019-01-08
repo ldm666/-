@@ -1,4 +1,5 @@
 //从尾到头复制
+//实质上是归并排序的merge操作啊！！！！！！！
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
