@@ -1,0 +1,42 @@
+http://www.cnblogs.com/grandyang/p/4501934.html
+解一：双指针
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(nums.empty()) return 0;
+        int left=0,right=0,sum=0,len=nums.size(),res=len+1;
+        while(right < len){
+            while(sum<s && right<len){
+                sum+=nums[right++];
+            }
+            while(sum>=s){
+                res=min(res,right-left);  之所以不是right-left+1,是因为在上一个循环中right最后已经自增了，指向了当前的下一个
+                sum-=nums[left++];
+            }
+        }
+        return res==len+1 ? 0 : res;
+    }
+};
+//同上，可能比较容易写出来
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int l = 0 , r = -1; // sliding window: nums[l...r]
+        int sum = 0;
+        int res = nums.size() + 1;
+        while(l < nums.size()){
+            if(r + 1 < nums.size() && sum < s)
+                sum += nums[++r];
+            else
+                sum -= nums[l++];
+            if(sum >= s)
+                res = min(res, r - l + 1);
+        }
+        if(res == nums.size() + 1)
+            return 0;
+        return res;
+    }
+};
+
+
+//还有O(nlogn)的二分法，不过没看懂。。。
