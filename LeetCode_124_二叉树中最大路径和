@@ -8,6 +8,7 @@ public:
         return res;
     }
 private:
+//因为我们返回值的定义是以当前结点为终点的path之和，所以只能取left和right中较大的那个值，而不是两个都要
     int helper(TreeNode* node){
         if(!node) return 0;
         int left=max(helper(node->left),0);
