@@ -1,0 +1,43 @@
+//题目要求常数空间、低于O(n^2)的复杂度，所以哈希、暴力什么的不用考虑了
+二分法：
+我们在区间[1, n]中搜索，首先求出中点mid，然后遍历整个数组，统计所有小于等于mid的数的个数，
+如果个数小于等于mid，则说明重复值在[mid+1, n]之间，反之，重复值应在[1, mid-1]之间，
+然后依次类推，直到搜索完成，此时的low就是我们要求的重复值
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int left=0,right=nums.size();
+        while(left < right){
+            int mid=left+(right-left)/2;
+            int cnt=0;
+            for(auto num : nums){
+                if(num <= mid) ++cnt;
+            }
+            if(cnt <= mid) left=mid+1;
+            else right=mid;
+        }
+        return right;
+    }
+};
+
+快慢指针法：类似链表有环
+参考：http://www.cnblogs.com/grandyang/p/4843654.html
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = 0, fast = 0, t = 0;
+        while (true) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (slow == fast) break;
+        }
+        while (true) {
+            slow = nums[slow];
+            t = nums[t];
+            if (slow == t) break;
+        }
+        return slow;
+    }
+};
+
