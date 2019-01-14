@@ -1,0 +1,64 @@
+求矩阵中第K小的元素：http://www.cnblogs.com/grandyang/p/5727892.html
+
+解一：利用大顶堆
+当前堆中的元素个数是否大于k，大于的话就将首元素去掉，循环结束后我们返回堆中的首元素即为所求
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        priority_queue<int> q;
+        for (int i = 0; i < matrix.size(); ++i) {
+            for (int j = 0; j < matrix[i].size(); ++j) {
+                q.push(matrix[i][j]);
+                if (q.size() > k) q.pop();
+            }
+        }
+        return q.top();
+    }
+};
+
+解二：二分法，利用upper_bound
+时间复杂度为O(nlgn*lgX)，其中X为最大值和最小值的差值
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int left = matrix[0][0], right = matrix.back().back();
+        while (left < right) {
+            int mid = left + (right - left) / 2, cnt = 0;
+            for (int i = 0; i < matrix.size(); ++i) {
+                cnt += upper_bound(matrix[i].begin(), matrix[i].end(), mid) - matrix[i].begin();
+            }
+            if (cnt < k) left = mid + 1;
+            else right = mid;
+        }
+        return left;
+    }
+};
+
+
+解三：也是二分法，一步优化到O(nlgX)，其中X为最大值和最小值的差值
+见解析
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int left = matrix[0][0], right = matrix.back().back();
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            int cnt = search_less_equal(matrix, mid);
+            if (cnt < k) left = mid + 1;
+            else right = mid;
+        }
+        return left;
+    }
+    int search_less_equal(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size(), i = n - 1, j = 0, res = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] <= target) {
+                res += i + 1;
+                ++j;
+            } else {
+                --i;
+            }
+        }
+        return res;
+    }
+};
