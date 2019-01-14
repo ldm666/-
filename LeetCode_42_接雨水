@@ -1,6 +1,10 @@
-多种解法http://www.cnblogs.com/grandyang/p/4402392.html
+多种解法:http://www.cnblogs.com/grandyang/p/4402392.html
 
 //对撞指针
+left和right两个指针分别指向数组的首尾位置，从两边向中间扫描，在当前两指针确定的范围内，先比较两头找出较小值，
+如果较小值是left指向的值，则从左向右扫描，如果较小值是right指向的值，则从右向左扫描，
+若遇到的值比当较小值小，则将差值存入结果，如遇到的值大，则重新确定新的窗口范围，以此类推直至left和right指针重合
+
 class Solution {
 public:
     int trap(vector<int>& height) {
