@@ -9,14 +9,14 @@ public:
         return res;
     }
     void partitionDFS(string s, int start, vector<string> &out, vector<vector<string>> &res) { //因为没有对原串改变，所以s传值或者引用都无所谓
-        if (start == s.size()) {
+        if (start == s.size()) {    //只有递归到这一步，说明前面的都符合，才会把一种结果推入res.如果到不了这一步，说明前面有子串不符合
             res.push_back(out);
             return;
         }
         for (int i = start; i < s.size(); ++i) {
             if (isPalindrome(s, start, i)) {
                 out.push_back(s.substr(start, i - start + 1));
-                partitionDFS(s, i + 1, out, res);
+                partitionDFS(s, i + 1, out, res);  //说明start到i位置的是回文串，所以下一次从i+1位置开始判断
                 out.pop_back();
             }
         }
