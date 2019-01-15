@@ -1,0 +1,67 @@
+//利用哈希set
+https://leetcode.com/problems/longest-consecutive-sequence/solution/
+我们只尝试从不是较长序列的一部分的数字构建序列。 
+这是通过首先确保不存在紧接在序列中当前数字之前的数字来实现的，因为该数字必然是较长序列的一部分
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int res = 0;
+        unordered_set<int> s(nums.begin(), nums.end());
+        for (int val : s) {
+            if (!s.count(val-1)) {    //没懂，如果找到val-1就不管了？？？
+                int cur=val;
+                int curlen=1;
+                while(s.count(cur+1)){  
+                    cur+=1;
+                    curlen+=1;
+                }
+                res=max(res,curlen);
+            }
+        }
+        return res;
+    }
+};
+
+//也是哈希set
+//没懂,为什么要erase？？？
+//好像不erase也能过，但是花时间很长
+http://www.cnblogs.com/grandyang/p/4276225.html#commentform
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int res = 0;
+        unordered_set<int> s(nums.begin(), nums.end());
+        for (int val : nums) {
+            if (!s.count(val)) continue;
+            s.erase(val);
+            int pre = val - 1, next = val + 1;
+            while (s.count(pre)) s.erase(pre--);
+            while (s.count(next)) s.erase(next++);
+            res = max(res, next - pre - 1);
+        }
+        return res;
+    }
+};
+
+
+//哈希map,也没看懂。。。。
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int res = 0;
+        unordered_map<int, int> m;
+        for (int d : nums) {
+            if (!m.count(d)) {
+                int left = m.count(d - 1) ? m[d - 1] : 0;
+                int right = m.count(d + 1) ? m[d + 1] : 0;
+                int sum = left + right + 1;
+                m[d] = sum;
+                res = max(res, sum);
+                m[d - left] = sum;
+                m[d + right] = sum;
+            }
+        }
+        return res;
+    }
+};
