@@ -1,3 +1,4 @@
+//和42题接雨水做下比较！！！！
 双指针
 解析见官方解答：https://leetcode-cn.com/problems/container-with-most-water/solution/
 //每次较矮的一方向较高的一方接近
