@@ -3,7 +3,7 @@
 class Solution {
 public:
     void recursion(vector<int> num, int i, int j, vector<vector<int> > &res) {
-        if (i == j-1) {
+        if (i == j-1) {   //  j-1和j结果都一样
             res.push_back(num);
             return;
         }
