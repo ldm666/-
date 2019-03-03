@@ -1,0 +1,33 @@
+http://www.cnblogs.com/grandyang/p/7712724.html
+DFS
+//用递归来做，遍历grid，当遇到为1的点，我们调用递归函数，在递归函数中，我们首先判断i和j是否越界，还有grid[i][j]是否为1，
+我们没有用visited数组，而是直接修改了grid数组，遍历过的标记为-1。
+如果合法，那么cnt自增1，并且更新结果res，然后对其周围四个相邻位置分别调用递归函数即可
+
+//cnt保存着当前遍历到的位置的岛屿的数量，res保存着目前遍历到的最大岛屿数量
+class Solution {
+public:
+    vector<vector<int>> dirs{{0,-1},{-1,0},{0,1},{1,0}};
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] != 1) continue;
+                int cnt = 0;
+                helper(grid, i, j, cnt, res);
+            }
+        }
+        return res;
+    }
+    void helper(vector<vector<int>>& grid, int i, int j, int& cnt, int& res) {
+        int m = grid.size(), n = grid[0].size();
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] <= 0) return;
+        res = max(res, ++cnt);
+        grid[i][j] *= -1;
+        for (auto dir : dirs) {
+            helper(grid, i + dir[0], j + dir[1], cnt, res);
+        }
+    }
+};
+
+BFS解法
