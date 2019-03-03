@@ -1,0 +1,28 @@
+https://github.com/Shellbye/Shellbye.github.io/issues/42
+动态规划
+dp[k][m] 的含义是k个鸡蛋 移动m次最多能够确定多少楼层
+这个角度思考
+dp[k][m] 最多能够确定的楼层数为L
+那么我选定第一个扔的楼层之后，我要么碎，要么不碎
+这就是把L分成3段
+左边是碎的那段 长度是dp[k][m - 1]
+右边是没碎的那段 长度是dp[k-1][m - 1] 因为已经碎了一个了
+中间是我选定扔的楼层 是1
+所以递推公式是
+dp[k][m] = dp[k - 1][m - 1] + dp[k][m - 1] + 1
+
+class Solution {
+    public int superEggDrop(int K, int N) {
+        int[][] dp = new int[K + 1][N + 1];
+        for (int m = 1; m <= N; m++) {
+            dp[0][m] = 0; // zero egg
+            for (int k = 1; k <= K; k++) {
+                dp[k][m] = dp[k][m - 1] + dp[k - 1][m - 1] + 1;
+                if (dp[k][m] >= N) {
+                    return m;
+                }
+            }
+        }
+        return N;
+    }
+}
