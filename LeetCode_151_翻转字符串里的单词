@@ -1,0 +1,13 @@
+//利用istringstream的特性：每次>>操作都会取出连续的一串不包含空格的字符
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        istringstream in(s);
+        string res,tmp;
+        in>>res;
+        while(in>>tmp) res=tmp+" "+res;    //每次将取得的单词放在res的前面
+        if(!res.empty() && res[0]==' ') return "";
+        return res;
+    }
+};
