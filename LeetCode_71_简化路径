@@ -1,0 +1,20 @@
+http://www.cnblogs.com/grandyang/p/4347125.html
+
+利用stringsteam和getline将被/分割的字符串取出，一一判断
+中间是"."的情况直接去掉，是".."时删掉它上面挨着的一个路径，如果是空的话返回"/"，如果有多个"/"只保留一个。
+那么我们可以把路径看做是由一个或多个"/"分割开的众多子字符串，把它们分别提取出来一一处理即可
+class Solution {
+public:
+    string simplifyPath(string path) {
+        string res,t;
+        stringstream ss(path);
+        vector<string> v;
+        while(getline(ss,t,'/')){
+            if(t=="" || t==".") continue;
+            if(t==".." && !v.empty()) v.pop_back();
+            else if(t!="..") v.push_back(t);
+        }
+        for(string s : v) res+="/"+s;
+        return res.empty()? "/" : res;
+    }
+};
