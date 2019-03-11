@@ -1,0 +1,17 @@
+http://www.cnblogs.com/grandyang/p/4373533.html
+贪婪算法，每次贪最远的范围
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int res = 0, n = nums.size(), last = 0, cur = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            cur = max(cur, i + nums[i]);
+            if (i == last) {    //什么时候才需要下一跳呢：就是当当前位置i等于上一次所能达到的最大范围的时候
+                last = cur;
+                ++res;
+                if (cur >= n - 1) break;
+            }
+        }
+        return res;
+    }
+};
