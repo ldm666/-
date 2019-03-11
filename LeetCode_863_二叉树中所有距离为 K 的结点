@@ -1,0 +1,54 @@
+https://blog.csdn.net/u011026968/article/details/80876619
+建反向边，保存在哈希map里
+再利用BFS遍历
+
+class Solution {
+public:
+    
+    void build(TreeNode* root, unordered_map<TreeNode*, TreeNode*>&redges) {
+        if (!root) return;
+        if (root->left) {
+            redges[root->left] = root;
+            build(root->left, redges);
+        }
+        if (root->right) {
+            redges[root->right] = root;
+            build(root->right, redges);
+        }
+    }
+    
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> redges;
+        build(root, redges);
+        queue< pair<TreeNode*, int> > q;
+        q.push( make_pair(target, 0) );
+        vector<int> ans;
+        
+        unordered_set<TreeNode*> visit;
+        visit.insert(target); //防止在队列q中加入重复结点
+        
+        while (!q.empty()) {
+            pair<TreeNode*, int> tp = q.front();
+            q.pop();
+            if (tp.second == k) {
+                ans.push_back( tp.first->val );
+                continue;
+            }
+ 
+            if (tp.first->left && visit.find(tp.first->left) == visit.end()) {
+                q.push(  make_pair(tp.first->left, tp.second + 1)  );
+                visit.insert(tp.first->left);
+            }
+            if (tp.first->right && visit.find(tp.first->right) == visit.end()) {
+                q.push(  make_pair(tp.first->right, tp.second + 1)  );
+                visit.insert(tp.first->right);
+            }
+            if (redges.find(tp.first) != redges.end() && visit.find(redges[tp.first]) == visit.end() ) {
+                q.push(  make_pair(redges[tp.first], tp.second + 1) );
+                visit.insert(redges[tp.first]);
+            }
+        }
+        
+        return ans;
+    }
+};
