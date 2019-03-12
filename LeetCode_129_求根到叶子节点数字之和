@@ -1,4 +1,19 @@
-//别人的解法
+很棒的一道题，请学习其中的DFS递归思路
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return sumNumbersDFS(root, 0);
+    }
+    int sumNumbersDFS(TreeNode* root, int sum) {
+        if (!root) return 0;
+        sum = sum * 10 + root->val;
+        if (!root->left && !root->right) return sum;
+        return sumNumbersDFS(root->left, sum) + sumNumbersDFS(root->right, sum);
+    }
+};
+
+//相似的解法
 class Solution {
 public:
     int sumNumbers(TreeNode *root) {
