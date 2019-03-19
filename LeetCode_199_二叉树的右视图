@@ -1,0 +1,22 @@
+BFS，每次取最右的一个节点
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        if(!root) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            res.push_back(q.back()->val);
+            int n=q.size();
+            for(int i=0;i<n;++i){
+                TreeNode* cur=q.front();
+                q.pop();
+                if(cur->left) q.push(cur->left);
+                if(cur->right) q.push(cur->right);
+            }
+        }
+        return res;
+    }
+};
