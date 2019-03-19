@@ -1,0 +1,4 @@
+http://www.cnblogs.com/grandyang/p/5361967.html
+
+SELECT Email FROM Person GROUP BY Email
+HAVING COUNT(*) > 1;
