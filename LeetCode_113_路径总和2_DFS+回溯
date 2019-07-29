@@ -12,7 +12,7 @@ private:
         if(cur==NULL) return;
         path.push_back(cur->val);
         if(cur->left==NULL && cur->right==NULL && sum==cur->val)
-            paths.push_back(path);
+            paths.push_back(path);              //这里推入结果后不能马上return，因为还没回溯，无论是不是到达叶子结点，都必须走到18行的回溯
         dfs(cur->left,sum-cur->val,path,paths);
         dfs(cur->right,sum-cur->val,path,paths);//有了回溯，才能保证从左子树回归时当前path只有根节点一个元素，才能正确的访问右子树
         path.pop_back();//回溯；因为是传引用
