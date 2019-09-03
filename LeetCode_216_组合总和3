@@ -1,0 +1,25 @@
+DFS：类似于找出所有总和的思路，递归，回溯
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> res;
+        vector<int> tmp;
+        dfs(res,tmp,k,0,n,1);
+        return res;
+    }
+    
+    void dfs(vector<vector<int>>& res, vector<int>& tmp, int k, int sum, int n,int begin){
+        if(k==0){
+            if(sum==n){
+                res.push_back(tmp);
+            }
+            return;
+        }
+        for(int i=begin;i<=9;++i){
+            tmp.push_back(i);
+            dfs(res,tmp,k-1,sum+i,n,i+1);
+            tmp.pop_back();
+        }
+    }
+};
