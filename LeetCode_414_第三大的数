@@ -1,4 +1,7 @@
 //利用set的有序特性，始终保存三个数，当超出时删除第一个数，故set里面始终是top3的数
+ 时间复杂度：O(n * log3) == O(n)
+ 空间复杂度O(1)
+ 
 class Solution {
 public:
     int thirdMax(vector<int>& nums) {
@@ -10,5 +13,24 @@ public:
                 top3.erase(top3.begin());
         }
         return top3.size()==3 ? *top3.begin():*top3.rbegin();
+    }
+};
+
+//三次循环
+时间和空间都是O(1)
+
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        int max1=INT_MIN,max2=INT_MIN,max3=INT_MIN,n=nums.size(),cnt=0;//具体看代码就知道啦
+        for(int i=0;i<n;i++)max1=max(max1,nums[i]);
+        for(int i=0;i<n;i++)if(nums[i]!=max1)max2=max(max2,nums[i]);
+        for(int i=0;i<n;i++)if(nums[i]!=max1&&nums[i]!=max2){
+            if(nums[i]>=max3){
+                max3=nums[i];
+                cnt++;
+            }
+        }
+        return (cnt==0)?max1:max3;
     }
 };
