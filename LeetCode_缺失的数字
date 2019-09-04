@@ -1,3 +1,5 @@
+https://leetcode-cn.com/problems/missing-number/solution/que-shi-shu-zi-by-leetcode/
+
 //利用下标和数组中元素的值做异或，最后得出的数为缺失的数
 //利用结论：a^b^b=a;
 
